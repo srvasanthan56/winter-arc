@@ -16,7 +16,7 @@ pick up the next rep, put it down when you're done. The checkboxes are the whole
 ## Progress
 
 <!-- PROGRESS:START -->
-### Overall: 0 / 1255 reps complete — **0.0%**
+### Overall: 8 / 1255 reps complete — **0.6%**
 
 `░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░`
 
@@ -30,8 +30,14 @@ pick up the next rep, put it down when you're done. The checkboxes are the whole
 | 06 | [Containers, Orchestration & Deployment](tracks/06-containers-and-deploy.md) | `░░░░░░░░░░░░░░░░░░░░`   0.0% | 0/113 | not started |
 | 07 | [Debugging & Observability](tracks/07-debugging-and-observability.md) | `░░░░░░░░░░░░░░░░░░░░`   0.0% | 0/96 | not started |
 | 08 | [Algorithms & Data Structures](tracks/08-algorithms-and-dsa.md) | `░░░░░░░░░░░░░░░░░░░░`   0.0% | 0/110 | not started |
-| 09 | [Distributed Systems & Data Engineering](tracks/09-distributed-systems-and-data.md) | `░░░░░░░░░░░░░░░░░░░░`   0.0% | 0/188 | not started |
+| 09 | [Distributed Systems & Data Engineering](tracks/09-distributed-systems-and-data.md) | `█░░░░░░░░░░░░░░░░░░░`   4.3% | 8/188 | in progress |
 | 10 | [Capstones](tracks/10-capstones.md) | `░░░░░░░░░░░░░░░░░░░░`   0.0% | 0/78 | not started |
+
+### Off-syllabus (does not count toward overall %)
+
+| # | Track | Progress | Done | Status |
+|---|-------|----------|------|--------|
+| 11 | [Overflow](tracks/11-overflow.md) | `░░░░░░░░░░░░░░░░░░░░`    — | 0 logged | inbox empty |
 
 _Regenerate with_ `python progress.py`
 <!-- PROGRESS:END -->
@@ -56,6 +62,8 @@ The honest failure mode of every self-study plan is checking boxes for reading �
 happen. In a year this directory *is* your evidence, for interviews and for yourself.
 
 **3. Train 2–3 tracks at a time, never all ten.**
+[Track 11](tracks/11-overflow.md) is the exception: it is an inbox for staging, work,
+and random tangents. It does not count toward the overall bar. Do not plan weeks around it.
 See the training blocks below. Tracks have prerequisites, and the order is load-bearing:
 DDIA lands differently after you've run `EXPLAIN` on a real query and watched TCP
 retransmit. That ordering is most of the value of this document.
@@ -89,8 +97,9 @@ real failure mode. Missing a week costs nothing. Quitting costs everything.
 | 08 | [Algorithms & Data Structures](tracks/08-algorithms-and-dsa.md) | Sharp, and interview-ready |
 | 09 | [Distributed Systems & Data](tracks/09-distributed-systems-and-data.md) | Senior. This is the one that changes your level |
 | 10 | [Capstones](tracks/10-capstones.md) | Able to prove all of the above |
+| 11 | [Overflow](tracks/11-overflow.md) | A log for staging, tickets, and random work — **not scored** |
 
-Each track is split into four phases with the same shape:
+Track 11 is only an inbox. Tracks 01–10 use four phases:
 
 | Phase | Bodybuilding analogue | What it means here |
 |---|---|---|
@@ -202,10 +211,12 @@ winter_is_coming/
 │   ├── 07-debugging-and-observability.md
 │   ├── 08-algorithms-and-dsa.md
 │   ├── 09-distributed-systems-and-data.md
-│   └── 10-capstones.md
+│   ├── 10-capstones.md
+│   └── 11-overflow.md     <- staging / work / random (not scored)
 ├── work/                  <- everything you build, per track
 │   ├── 01-linux/
 │   ├── 02-git/
+│   ├── 11-overflow/       <- dumps from staging and one-off experiments
 │   └── ...
 └── notes/                 <- the writeups the tracks ask for
 ```

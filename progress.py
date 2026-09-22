@@ -61,6 +61,7 @@ class Section:
 class Track:
     path: Path
     title: str
+    sidecar: bool = False
     sections: list[Section] = field(default_factory=list)
 
     @property
@@ -105,10 +106,22 @@ def cbar(pct: float, width: int = BAR_WIDTH) -> str:
 
 def parse_track(path: Path) -> Track:
     title = path.stem
+    sidecar = False
+    in_fence = False
     sections: list[Section] = []
     current = Section("(intro)")
 
     for line in path.read_text(encoding="utf-8").splitlines():
+        if line.strip().startswith("```"):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+
+        if "<!-- SIDECAR -->" in line:
+            sidecar = True
+            continue
+
         title_match = TRACK_TITLE_RE.match(line)
         if title_match:
             title = title_match.group(1).strip()
@@ -132,7 +145,15 @@ def parse_track(path: Path) -> Track:
     if current.total:
         sections.append(current)
 
-    return Track(path=path, title=title, sections=sections)
+    return Track(path=path, title=title, sidecar=sidecar, sections=sections)
+
+
+def scored_tracks(tracks: list[Track]) -> list[Track]:
+    return [t for t in tracks if not t.sidecar]
+
+
+def sidecar_tracks(tracks: list[Track]) -> list[Track]:
+    return [t for t in tracks if t.sidecar]
 
 
 def load_tracks() -> list[Track]:
@@ -148,9 +169,37 @@ def strip_markdown(text: str) -> str:
     return text
 
 
+def track_status(track: Track) -> str:
+    if track.sidecar:
+        if track.total == 0:
+            return "inbox empty"
+        open_count = track.total - track.done
+        return f"{open_count} open" if open_count else "inbox clear"
+    if track.pct >= 100:
+        return "complete"
+    if track.pct > 0:
+        return "in progress"
+    return "not started"
+
+
+def table_row(track: Track) -> str:
+    link = f"[{track.short_title}](tracks/{track.path.name})"
+    if track.sidecar and track.total == 0:
+        meter = f"`{bar(0)}`    —"
+        count = "0 logged"
+    else:
+        meter = f"`{bar(track.pct)}` {track.pct:5.1f}%"
+        count = f"{track.done}/{track.total}"
+    return (
+        f"| {track.number} | {link} | {meter} | {count} | {track_status(track)} |"
+    )
+
+
 def build_table(tracks: list[Track]) -> str:
-    done = sum(t.done for t in tracks)
-    total = sum(t.total for t in tracks)
+    scored = scored_tracks(tracks)
+    extras = sidecar_tracks(tracks)
+    done = sum(t.done for t in scored)
+    total = sum(t.total for t in scored)
     pct = 100.0 * done / total if total else 0.0
 
     lines = [
@@ -161,19 +210,17 @@ def build_table(tracks: list[Track]) -> str:
         "| # | Track | Progress | Done | Status |",
         "|---|-------|----------|------|--------|",
     ]
+    lines.extend(table_row(t) for t in scored)
 
-    for track in tracks:
-        if track.pct >= 100:
-            status = "complete"
-        elif track.pct > 0:
-            status = "in progress"
-        else:
-            status = "not started"
-        link = f"[{track.short_title}](tracks/{track.path.name})"
-        lines.append(
-            f"| {track.number} | {link} | `{bar(track.pct)}` "
-            f"{track.pct:5.1f}% | {track.done}/{track.total} | {status} |"
-        )
+    if extras:
+        lines += [
+            "",
+            "### Off-syllabus (does not count toward overall %)",
+            "",
+            "| # | Track | Progress | Done | Status |",
+            "|---|-------|----------|------|--------|",
+        ]
+        lines.extend(table_row(t) for t in extras)
 
     lines += ["", f"_Regenerate with_ `python progress.py`"]
     return "\n".join(lines)
@@ -200,20 +247,33 @@ def update_readme(table: str) -> bool:
 
 
 def print_summary(tracks: list[Track]) -> None:
-    done = sum(t.done for t in tracks)
-    total = sum(t.total for t in tracks)
+    scored = scored_tracks(tracks)
+    extras = sidecar_tracks(tracks)
+    done = sum(t.done for t in scored)
+    total = sum(t.total for t in scored)
     pct = 100.0 * done / total if total else 0.0
 
     width = max((len(t.short_title) for t in tracks), default=10)
     print()
-    for track in tracks:
+    for track in scored:
         print(
             f"  {track.number}  {track.short_title:<{width}}  {cbar(track.pct)} "
             f"{track.pct:5.1f}%   {track.done:>3}/{track.total}"
         )
     print()
-    print(f"  {'':<{len(tracks[0].number) if tracks else 2}}  {'OVERALL':<{width}}  "
+    print(f"  {'':<{len(scored[0].number) if scored else 2}}  {'OVERALL':<{width}}  "
           f"{cbar(pct)} {pct:5.1f}%   {done:>3}/{total}")
+    if extras:
+        print()
+        print("  Off-syllabus (not in overall %)")
+        for track in extras:
+            if track.total == 0:
+                print(f"  {track.number}  {track.short_title:<{width}}  inbox empty")
+            else:
+                print(
+                    f"  {track.number}  {track.short_title:<{width}}  {cbar(track.pct)} "
+                    f"{track.pct:5.1f}%   {track.done:>3}/{track.total}"
+                )
     print()
 
 
@@ -236,7 +296,8 @@ def print_next(tracks: list[Track]) -> None:
     for track in tracks:
         nxt = track.first_open
         if nxt is None:
-            print(f"  {track.number}  {track.short_title}: complete")
+            label = "inbox empty" if track.sidecar else "complete"
+            print(f"  {track.number}  {track.short_title}: {label}")
         else:
             print(f"  {track.number}  {track.short_title}:\n      {strip_markdown(nxt)[:150]}")
     print()
