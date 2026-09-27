@@ -14,23 +14,30 @@ being scary incantations.
 
 ## Equipment
 
-| Resource | Use it for |
-|---|---|
-| **Git Magic** — Ben Lynn (you asked for this) | Fast, opinionated mental model. Read it start to finish in one sitting. |
-| **Pro Git** — Chacon & Straub (free) | Ch. 2, 3, 5, 6, 7, and **Chapter 10 (Internals) — the important one** |
-| MIT Missing Semester **Lecture 6: Version Control** | Best 1-hour explanation of the data model in existence |
-| **Learn Git Branching** (learngitbranching.js.org) | Interactive drills, all levels including remote |
-| **Oh Shit, Git!?!** (ohshitgit.com) | Recovery cookbook |
-| **Build Your Own Git** (CodeCrafters / write-yourself-a-git) | Phase 3 capstone |
+
+| Resource                                                     | Use it for                                                              |
+| ------------------------------------------------------------ | ----------------------------------------------------------------------- |
+| **Git Magic** — Ben Lynn (you asked for this)                | Fast, opinionated mental model. Read it start to finish in one sitting. |
+| **Pro Git** — Chacon & Straub (free)                         | Ch. 2, 3, 5, 6, 7, and **Chapter 10 (Internals) — the important one**   |
+| MIT Missing Semester **Lecture 6: Version Control**          | Best 1-hour explanation of the data model in existence                  |
+| **Learn Git Branching** (learngitbranching.js.org)           | Interactive drills, all levels including remote                         |
+| **Oh Shit, Git!?!** (ohshitgit.com)                          | Recovery cookbook                                                       |
+| **Build Your Own Git** (CodeCrafters / write-yourself-a-git) | Phase 3 capstone                                                        |
+
 
 **Practice repo:** create `work/02-git/sandbox/` — a throwaway repo you are free to destroy.
 Every dangerous experiment happens there first.
 
 ---
 
+
+
 ## Phase 1 — Foundation (the data model)
 
+
+
 ### Set 1.1 — The three trees
+
 - [ ] Read Git Magic cover to cover
 - [ ] Watch Missing Semester L6
 - [ ] Draw the diagram yourself: working directory ↔ index (staging) ↔ HEAD/repository. Save as `notes/three-trees.md`
@@ -38,7 +45,10 @@ Every dangerous experiment happens there first.
 - [ ] `git status` and `git diff` vs `git diff --staged` vs `git diff HEAD` — know which pair of trees each compares
 - [ ] **Rep:** stage a file, modify it again, then `git diff` and `git diff --staged` and explain why they differ
 
+
+
 ### Set 1.2 — Objects (this is the whole thing)
+
 - [ ] Read **Pro Git Chapter 10.1–10.3** (Plumbing and Porcelain, Git Objects, Git References)
 - [ ] The four object types: **blob**, **tree**, **commit**, **tag**. Know what each contains
 - [ ] **Rep:** in your sandbox, run `git hash-object -w`, `git cat-file -t`, `git cat-file -p` on a blob, a tree, and a commit. Paste the raw output into `notes/git-objects.md` and annotate every field
@@ -48,7 +58,10 @@ Every dangerous experiment happens there first.
 - [ ] Understand why identical content in two files = one blob. Content addressing
 - [ ] `git gc`, packfiles, and why `.git` shrinks
 
+
+
 ### Set 1.3 — Refs, HEAD, and revision syntax
+
 - [ ] `HEAD`, detached HEAD — what it means and how to get out of it safely
 - [ ] Revision syntax: `HEAD~3`, `HEAD^`, `HEAD^2`, `main@{2}`, `main@{yesterday}`, `<sha>`
 - [ ] Know precisely how `~` differs from `^` on a merge commit. Draw it
@@ -57,32 +70,43 @@ Every dangerous experiment happens there first.
 
 ---
 
+
+
 ## Phase 2 — Volume (daily-driver fluency)
 
+
+
 ### Set 2.1 — Branching and merging
-- [ ] Complete **Learn Git Branching** — Main sequence, all levels
+
+- [x] Complete **Learn Git Branching** — Main sequence, all levels
 - [ ] Fast-forward vs three-way merge. When git can and cannot fast-forward
 - [ ] `git merge --no-ff` and why some teams mandate it
 - [ ] **Conflict resolution for real:** conflict markers, `git diff` during a conflict, `--ours` vs `--theirs` (and how those flip during a rebase)
-- [ ] **`git merge --abort`** — your escape hatch. Also `git rebase --abort`, `git cherry-pick --abort`
+- [ ] `git merge --abort` — your escape hatch. Also `git rebase --abort`, `git cherry-pick --abort`
 - [ ] `git mergetool` and configuring VS Code as your merge tool
 - [ ] `git rerere` — record and reuse conflict resolutions. Turn it on
 - [ ] **Rep:** deliberately create a 3-file conflict in your sandbox, resolve it, then `--abort` a second identical one. Do this 5 times until conflicts feel boring
 
+
+
 ### Set 2.2 — Rewriting history
+
 - [ ] `git commit --amend` (and the rule: never amend something you've pushed to a shared branch)
 - [ ] `git rebase <branch>` — what actually happens to commit SHAs and why
-- [ ] **`git rebase -i`** — `pick`, `reword`, `edit`, `squash`, `fixup`, `drop`, reorder
+- [ ] `git rebase -i` — `pick`, `reword`, `edit`, `squash`, `fixup`, `drop`, reorder
 - [ ] `git commit --fixup <sha>` + `git rebase -i --autosquash` — the pro workflow
-- [ ] **`git cherry-pick`** — single commit, ranges, `-x` to record provenance, `-n` to not commit
+- [ ] `git cherry-pick` — single commit, ranges, `-x` to record provenance, `-n` to not commit
 - [ ] When cherry-pick is right vs when it's a smell (duplicated commits across branches)
 - [ ] `git revert` vs `git reset` — and the rule for public history
 - [ ] `git reset --soft` / `--mixed` / `--hard` — map each one onto the three trees. This is the test of Set 1.1
 - [ ] **Rep:** take a 6-commit branch with messy WIP commits and interactive-rebase it into 3 clean, reviewable, atomic commits with good messages
 - [ ] **Rep:** cherry-pick a bugfix from `main` onto a release branch, resolve the conflict it causes, verify with `git log --cherry-mark`
 
+
+
 ### Set 2.3 — Recovery (the confidence unlock)
-- [ ] **`git reflog`** — what it records, how long entries live (90 days default), `git reflog show <branch>`
+
+- [ ] `git reflog` — what it records, how long entries live (90 days default), `git reflog show <branch>`
 - [ ] **Rep:** `git reset --hard` away 3 commits, then recover every one of them using reflog
 - [ ] **Rep:** delete a branch entirely, then resurrect it from reflog
 - [ ] **Rep:** lose a commit during a botched rebase, recover it
@@ -92,7 +116,10 @@ Every dangerous experiment happens there first.
 - [ ] Work through **Oh Shit, Git!?!** — do every scenario in your sandbox
 - [ ] **Rep:** write `notes/git-recovery.md` — your own recovery playbook for the 8 scenarios you're most likely to hit
 
+
+
 ### Set 2.4 — Working with remotes
+
 - [ ] `origin` is just a name. `git remote -v`, `add`, `rename`, `set-url`
 - [ ] `git fetch` vs `git pull` vs `git pull --rebase`. Configure `pull.rebase=true` and explain why
 - [ ] Remote-tracking branches: `origin/main` is a *local* ref. Why it goes stale
@@ -101,20 +128,28 @@ Every dangerous experiment happens there first.
 - [ ] Fork + upstream workflow, PR etiquette, `git request-pull`
 - [ ] **Rep:** simulate a team: clone your sandbox to a second directory, make conflicting pushes, resolve as both "developers"
 
+
+
 ### Set 2.5 — Investigation
-- [ ] **`git blame`** — `-L` line ranges, `-w` ignore whitespace, `-C` detect moved code, `--ignore-rev` + `.git-blame-ignore-revs` for reformat commits
+
+- [ ] `git blame` — `-L` line ranges, `-w` ignore whitespace, `-C` detect moved code, `--ignore-rev` + `.git-blame-ignore-revs` for reformat commits
 - [ ] `git log` mastery: `-S` (pickaxe: when was this string added/removed), `-G` (regex), `--follow`, `-p`, `--author`, `--since`, `--grep`, `--stat`, `--format=`
-- [ ] **`git bisect`** — `start/bad/good/reset`, and `git bisect run <script>` for full automation
+- [ ] `git bisect` — `start/bad/good/reset`, and `git bisect run <script>` for full automation
 - [ ] **Rep:** plant a bug 40 commits deep in your sandbox, write a test script that exits nonzero on the bug, and let `git bisect run` find it automatically
 - [ ] **Rep:** use `git log -S "functionName"` to find when a function was introduced and deleted in a real open-source repo
 - [ ] `git shortlog -sn`, `git log --graph --all --oneline --decorate` as your default alias
 
 ---
 
+
+
 ## Phase 3 — Strength
 
+
+
 ### Set 3.1 — Power tools
-- [ ] **`git worktree`** — multiple branches checked out simultaneously, no stashing. `add`, `list`, `remove`
+
+- [ ] `git worktree` — multiple branches checked out simultaneously, no stashing. `add`, `list`, `remove`
 - [ ] **Rep:** use a worktree to review a PR while keeping your feature work untouched. Never stash for this again
 - [ ] `git submodule` vs `git subtree` — the tradeoffs, why submodules hurt, when they're still right
 - [ ] Hooks: `pre-commit`, `commit-msg`, `pre-push`. Where they live, why they aren't versioned by default
@@ -125,7 +160,10 @@ Every dangerous experiment happens there first.
 - [ ] `git filter-repo` — removing a leaked secret from all of history (and why you must rotate the secret anyway)
 - [ ] **Rep:** commit a fake API key, then scrub it from history with `filter-repo` and verify it's unreachable
 
+
+
 ### Set 3.2 — Workflow and team craft
+
 - [ ] Compare trunk-based development vs GitFlow vs GitHub Flow. Write which you'd advocate for and why in `notes/git-workflows.md`
 - [ ] Commit message discipline: Conventional Commits, the 50/72 rule, "why not what"
 - [ ] **Rep:** rewrite your last 10 commit messages (in the sandbox) to be genuinely useful to someone reading them in 2 years
@@ -133,12 +171,17 @@ Every dangerous experiment happens there first.
 - [ ] **Rep:** take a messy working directory with 3 unrelated changes and split it into 3 clean commits using only `git add -p`
 - [ ] Code review: what makes a reviewable PR. Read Google's *Code Review Developer Guide*
 
+
+
 ### Set 3.3 — Build it to understand it
+
 - [ ] **Capstone:** implement a minimal git in Python or Go. Required commands: `init`, `hash-object`, `cat-file`, `write-tree`, `commit-tree`, `log`
 - [ ] Your implementation must produce SHAs **byte-identical** to real git for the same content. This is the test that proves you understood the object format
 - [ ] Bonus: implement `clone` against a real remote (smart HTTP protocol). CodeCrafters' Build Your Own Git has this stage
 
 ---
+
+
 
 ## Phase 4 — Peak (drills)
 
@@ -155,10 +198,3 @@ Time yourself. These should be reflexes, not research projects.
 
 ---
 
-## Exit criteria for Track 02
-
-- [ ] You can explain what a commit object contains, byte for byte
-- [ ] Nothing in git can make you lose work, and you know why
-- [ ] Interactive rebase is routine, not an event
-- [ ] Your mini-git produces real git SHAs
-- [ ] You can teach the data model to someone else on a whiteboard in 15 minutes

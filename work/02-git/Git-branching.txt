@@ -1,0 +1,12 @@
+Today I have learnt git branching js org
+
+How the rebase , cherry-picks are working
+
+For Instance 
+
+rebase -i is a interactive way of choosing what commit do we want and it just applies in the next parallel branch 
+
+so cherry-pick is a shortcut way to see what commit to pick and append it to the HEAD and create a diverge part the the current branch checked out will be sent to the last arg of cherry-pick
+
+c2> git cherry-pick c4 c3 c2
+

@@ -10,6 +10,10 @@ I am currently into Git-magic intial chapter , where git reset are learnt
 *origin* - “origin” is a nickname given to the source repository
 *upstream* - linkage of local branch and remote tracking branch (the river your branch's commits flow to/from. Set it with git push -u origin main once; after that git remembers)
 
+*ref* is anything in git that can resolve into a commit, like HEAD, branch , commit hash, relative commit like ^ and ~<num>
+
+HEAD^2 - tells that it is notifying a another parent in a merge commit
+
 ## Three trees
 Git always has three snapshots of the project
  What will be commited
@@ -278,6 +282,17 @@ To stop the git rebase
 to skip the commit 
 `git rebase --skip`
 
+`git rebase main bugFix`
+it checks out bugFix and rebases it onto main 
+
+which is same as git checkout ; git rebase main
+
+so git rebaseing a child commit will make recursively take upto the parent commit to which the original commit differs and then apply it onto the 1st commit parameter 
+
+To transfer a older branch to a new commit in the same line of flow
+three(c1) > git rebase c2 --> three(c2)
+where c1 , c2 are commit hash
+
 ## git reflog
 
 Finding HEAD
@@ -332,3 +347,11 @@ it's "moving where 'now' is." The branch pointer relocates to an earlier commit
     why to alter the history 
 - filter-branch 
 
+## 27/09/2026
+
+### Git Tag
+
+tags are permanent markers in the git commit history , which will not move, this marks any milestones and important releases
+
+it act as great anchors in the codebase, 
+`git describe`
