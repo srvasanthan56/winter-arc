@@ -64,7 +64,7 @@ that turns into vocabulary if you only read it. The reps are what make it stick.
 ### Set 1.3 — Ch. 3: Storage and Retrieval (the chapter that pays for the book)
 
 - [ ] Read Ch. 3
-- [ ] **Log-structured storage**: append-only logs, hash indexes, **SSTables**, **LSM-trees**, memtables, compaction strategies (size-tiered vs leveled), Bloom filters in the read path
+- [x] **Log-structured storage**: append-only logs, hash indexes, **SSTables**, **LSM-trees**, memtables, compaction strategies (size-tiered vs leveled), Bloom filters in the read path
 - [ ] **B-trees**: pages, write-ahead log, and the comparison with LSM-trees — **write amplification vs read amplification**, compaction pauses, predictable latency
 - [ ] **Rep:** you implemented an LSM-tree and a B+ tree in Track 08 Set 1.2. Benchmark them against each other: write-heavy workload, then read-heavy, then mixed. **Now you can defend "why RocksDB for this and Postgres for that" from measurement rather than blog posts**
 - [ ] OLTP vs OLAP. Data warehouses, star and snowflake schemas
