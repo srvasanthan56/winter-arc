@@ -20,30 +20,38 @@ assumes you're working against millions of rows.
 
 ## Equipment
 
-| Resource | Use it for |
-|---|---|
-| **PostgreSQL official docs** (postgresql.org/docs/current) | The primary text. Genuinely one of the best-written manuals in software. |
-| **pgexercises.com** | Phase 1–2 drills, every section |
-| **Harvard CS50 SQL** | Structured intro if you want lectures, includes good psets |
-| **CMU 15-445 / 15-721** — Andy Pavlo (YouTube, free) | Phase 3–4. The best database systems course that exists. |
-| **The Internals of PostgreSQL** — Hironobu Suzuki (interdb.jp/pg) | Phase 4. Free, illustrated, definitive. |
-| **PostgreSQL 14 Internals** — Egor Rogov (free PDF, Postgres Pro) | Phase 4. Deeper than Suzuki. |
-| **Use The Index, Luke** — Markus Winand | Indexing, top to bottom |
-| **DDIA** Ch. 2, 3, 7 | Concepts behind the mechanics — see Track 09 |
-| `pgbench`, `pg_stat_statements`, `auto_explain`, `pgtune` | Your measuring instruments |
+
+| Resource                                                          | Use it for                                                               |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| **PostgreSQL official docs** (postgresql.org/docs/current)        | The primary text. Genuinely one of the best-written manuals in software. |
+| **pgexercises.com**                                               | Phase 1–2 drills, every section                                          |
+| **Harvard CS50 SQL**                                              | Structured intro if you want lectures, includes good psets               |
+| **CMU 15-445 / 15-721** — Andy Pavlo (YouTube, free)              | Phase 3–4. The best database systems course that exists.                 |
+| **The Internals of PostgreSQL** — Hironobu Suzuki (interdb.jp/pg) | Phase 4. Free, illustrated, definitive.                                  |
+| **PostgreSQL 14 Internals** — Egor Rogov (free PDF, Postgres Pro) | Phase 4. Deeper than Suzuki.                                             |
+| **Use The Index, Luke** — Markus Winand                           | Indexing, top to bottom                                                  |
+| **DDIA** Ch. 2, 3, 7                                              | Concepts behind the mechanics — see Track 09                             |
+| `pgbench`, `pg_stat_statements`, `auto_explain`, `pgtune`         | Your measuring instruments                                               |
+
 
 **Lab setup (do this first):**
-- [ ] Postgres 16+ running locally in Docker, with a persistent volume
-- [ ] `psql` configured: `~/.psqlrc` with `\timing on`, `\x auto`, `\set HISTSIZE 5000`
-- [ ] A GUI for exploring (DBeaver or pgAdmin) — but **psql is your primary tool**
-- [ ] Load a real dataset with real volume. Pick two: **Pagila** (DVD rental), **pgexercises' clubdata**, **NYC Taxi trips** (~100M rows), **Stack Overflow dump**, or **IMDb datasets**
+
+- [x] Postgres 16+ running locally in Docker, with a persistent volume
+- [x] `psql` configured: `~/.psqlrc` with `\timing on`, `\x auto`, `\set HISTSIZE 5000`
+- [x] A GUI for exploring (DBeaver or pgAdmin) — but **psql is your primary tool**
+- [x] Load a real dataset with real volume. Pick two: **Pagila** (DVD rental), **pgexercises' clubdata**, **NYC Taxi trips** (~100M rows), **Stack Overflow dump**, or **IMDb datasets**
 - [ ] `pg_stat_statements` enabled in `postgresql.conf`
 
 ---
 
+
+
 ## Phase 1 — Foundation (the relational model + SQL that actually works)
 
+
+
 ### Set 1.1 — Relational model first, syntax second
+
 - [ ] What a relation actually is: tuples, attributes, domains, and why order doesn't matter
 - [ ] Keys: candidate, primary, foreign, surrogate vs natural. Composite keys
 - [ ] Normalization 1NF → 2NF → 3NF → BCNF. Be able to normalize a messy spreadsheet on paper
@@ -52,7 +60,10 @@ assumes you're working against millions of rows.
 - [ ] **Rep:** take a real-world domain (an order system, a ticketing system) and design the schema on paper to 3NF. Then write the DDL. Save to `work/03-postgres/schema-design/`
 - [ ] Read **DDIA Chapter 2** (Data Models) — relational vs document vs graph
 
+
+
 ### Set 1.2 — The SQL language (Postgres docs Ch. 4, "SQL Syntax")
+
 - [ ] `SELECT`, `WHERE`, `ORDER BY`, `LIMIT`/`OFFSET`, `DISTINCT`, `DISTINCT ON` (a Postgres gift)
 - [ ] **Logical order of evaluation**: FROM → WHERE → GROUP BY → HAVING → SELECT → DISTINCT → ORDER BY → LIMIT. Memorize this. It explains why you can't use a SELECT alias in WHERE
 - [ ] Joins: INNER, LEFT, RIGHT, FULL, CROSS, and `LATERAL` (the one most people never learn — learn it)
@@ -64,27 +75,36 @@ assumes you're working against millions of rows.
 - [ ] Set ops: `UNION` vs `UNION ALL` (know the performance difference), `INTERSECT`, `EXCEPT`
 - [ ] Subqueries: scalar, correlated, `IN`, `ANY`/`ALL`, and when the planner flattens them
 
+
+
 ### Set 1.3 — Drills
+
 - [ ] **pgexercises.com**: Basic + Joins and Subqueries sections, all questions, no peeking
 - [ ] **pgexercises.com**: Modifying Data, Aggregates sections
 - [ ] **pgexercises.com**: String and Date sections
 - [ ] **Rep:** 30 queries against your large dataset, written from business questions, not from schema. E.g. "which customers rented more in the second half of the year than the first?"
 - [ ] Optional: SQL Murder Mystery, Advent of SQL, or LeetCode Database (top 50)
 
+
+
 ### Set 1.4 — Your specific asks, done properly
-- [ ] **`generate_series`** — series of ints, timestamps, and its killer use: generating a calendar table to left-join against so gaps in data show as zeros instead of vanishing
+
+- [ ] `generate_series` — series of ints, timestamps, and its killer use: generating a calendar table to left-join against so gaps in data show as zeros instead of vanishing
 - [ ] **Rep:** produce a daily-count report with no missing days, using `generate_series` + `LEFT JOIN`
-- [ ] **Dates and times, done right**: `date` vs `timestamp` vs `timestamptz`. Why **`timestamptz` is almost always correct** and `timestamp` is a bug waiting to happen
+- [ ] **Dates and times, done right**: `date` vs `timestamp` vs `timestamptz`. Why `timestamptz` **is almost always correct** and `timestamp` is a bug waiting to happen
 - [ ] `AT TIME ZONE` (it works in both directions — understand both), `date_trunc`, `extract`, `age`, `interval` arithmetic, `tstzrange` and range types
 - [ ] **Rep:** write `notes/timezones.md` explaining what Postgres actually stores for a `timestamptz` (hint: it does not store the zone) and how a "report by local day per user" query must be written
-- [ ] **`WITH RECURSIVE`** — the mental model: anchor term UNION ALL recursive term
+- [ ] `WITH RECURSIVE` — the mental model: anchor term UNION ALL recursive term
 - [ ] **Rep:** recursive CTE #1 — walk an org chart / category tree to arbitrary depth, with a `path` array and `depth` column
 - [ ] **Rep:** recursive CTE #2 — find connected components / shortest path in a graph stored in a table, with cycle detection using the path array
 - [ ] **Rep:** recursive CTE #3 — bill of materials explosion (parts containing parts)
 - [ ] `CYCLE` and `SEARCH` clauses (SQL:99 features Postgres 14+ supports)
 - [ ] Non-recursive CTEs, and the **materialization change in PG12** (`MATERIALIZED` / `NOT MATERIALIZED`) — know why old advice about "CTEs are optimization fences" is now wrong
 
+
+
 ### Set 1.5 — Window functions (the highest-leverage SQL skill)
+
 - [ ] `OVER (PARTITION BY ... ORDER BY ...)` — the mental model vs `GROUP BY`
 - [ ] Ranking: `ROW_NUMBER`, `RANK`, `DENSE_RANK`, `NTILE`, `PERCENT_RANK`
 - [ ] Offset: `LAG`, `LEAD`, `FIRST_VALUE`, `LAST_VALUE`, `NTH_VALUE`
@@ -96,9 +116,14 @@ assumes you're working against millions of rows.
 
 ---
 
+
+
 ## Phase 2 — Volume (schema, types, and building something real)
 
+
+
 ### Set 2.1 — Data Definition (Postgres docs Ch. 5)
+
 - [ ] `CREATE TABLE`, column constraints vs table constraints
 - [ ] Constraints: `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, `CHECK`, `EXCLUDE` (underrated — use it for "no overlapping bookings")
 - [ ] Foreign keys and referential actions: `ON DELETE CASCADE / RESTRICT / SET NULL / NO ACTION`. Know that FKs need indexes on the *referencing* side or your deletes will crawl
@@ -109,11 +134,14 @@ assumes you're working against millions of rows.
 - [ ] Views, **materialized views**, `REFRESH MATERIALIZED VIEW CONCURRENTLY` (and its unique-index requirement)
 - [ ] `ALTER TABLE` and which forms take an `ACCESS EXCLUSIVE` lock and rewrite the whole table. **This is the knowledge that prevents outages** — write the safe/unsafe list into `notes/safe-migrations.md`
 
+
+
 ### Set 2.2 — Data types (Postgres docs Ch. 8) — including your UUID question
+
 - [ ] Numeric: `int2/4/8`, `numeric` vs `float8`. **Never store money in float** — know exactly why
 - [ ] Text: `text` vs `varchar(n)` vs `char(n)`. In Postgres, `text` is the default right answer. Know why `varchar(n)` gives you nothing but a constraint
 - [ ] Collation, `citext`, case-insensitive comparison, and `ICU` collations
-- [ ] **`SERIAL` vs `IDENTITY` vs `UUID` vs `OID`** — your question, answered in depth:
+- [ ] `SERIAL` **vs** `IDENTITY` **vs** `UUID` **vs** `OID` — your question, answered in depth:
   - [ ] `SERIAL` is not a type; it's a macro for int + sequence + default. Know what it expands to
   - [ ] `GENERATED ALWAYS AS IDENTITY` is the SQL-standard replacement. Use it for new work
   - [ ] Sequences: `nextval`, `currval`, caching, and why sequences are **non-transactional** (gaps after rollback)
@@ -129,7 +157,10 @@ assumes you're working against millions of rows.
 - [ ] `bytea`, and why you usually shouldn't put files in the database
 - [ ] Full text search: `tsvector`, `tsquery`, `to_tsvector`, ranking, GIN index, `pg_trgm` for fuzzy matching
 
+
+
 ### Set 2.3 — Build an app against it (this is the rung your ladder had, and it matters)
+
 - [ ] Pick a real domain with nontrivial relationships. Suggestion: a **multi-tenant job board** or **event ticketing with seat reservations** (forces you into concurrency problems later)
 - [ ] Build the API with **FastAPI** (ties into Track 06) using SQLAlchemy Core or asyncpg
 - [ ] **Migrations with Alembic:** autogenerate, review-the-generated-file discipline, `upgrade`/`downgrade`, branching and merge heads
@@ -142,7 +173,10 @@ assumes you're working against millions of rows.
 - [ ] **Railway / Neon / Fly.io** — deploy your app + database somewhere real. Note connection limits, pooling mode, and cold starts
 - [ ] **Rep:** write `notes/hosted-postgres.md` comparing what you actually get from Supabase vs Neon vs RDS vs self-hosted
 
+
+
 ### Set 2.4 — Client, connection, and operations
+
 - [ ] What happens on `psql "postgres://..."`: TCP connect → startup packet → auth (`scram-sha-256`) → **backend process forked** → query loop
 - [ ] Understand that Postgres is **process-per-connection**, not thread-per-connection. This single fact explains pooling, `max_connections`, and memory behavior
 - [ ] `pg_hba.conf` — the order-sensitive rules, `host` vs `hostssl` vs `local`, `trust` (and why it's dangerous)
@@ -156,12 +190,12 @@ assumes you're working against millions of rows.
   - [ ] **Rep:** load-test your app with `pgbench` or `k6` at 500 concurrent clients, first direct, then through PgBouncer in transaction mode. Graph latency and throughput. Then deliberately break something that only breaks in transaction mode, and explain it
   - [ ] **Rep (your scenario):** "multiple connection pools hitting the same data" — run two app instances with separate pools writing the same rows. Observe lock waits in `pg_locks` and `pg_stat_activity`. Then reproduce a **deadlock** between them and read the deadlock report in the log
   - [ ] Supavisor / RDS Proxy / pgcat — know they exist and what problem each adds beyond PgBouncer
-- [ ] **`pg_dump` / `pg_restore` / `pg_dumpall`** — your listed item:
+- [ ] `pg_dump` **/** `pg_restore` **/** `pg_dumpall` — your listed item:
   - [ ] Format flags: `-Fp` plain vs `-Fc` custom vs `-Fd` directory. Why `-Fc`/`-Fd` is almost always right
   - [ ] `-j` parallel dump/restore, `--schema-only`, `--data-only`, `-t` table, `-n` schema, `--exclude-table-data`
   - [ ] `pg_dump` runs in a repeatable-read snapshot — what that means for consistency and for long-running dumps holding back vacuum
   - [ ] `pg_restore --list` + `--use-list` for selective restore
-  - [ ] **`pg_basebackup`** and why it's a *different* kind of backup (physical vs logical)
+  - [ ] `pg_basebackup` and why it's a *different* kind of backup (physical vs logical)
   - [ ] **Point-in-time recovery (PITR)**: base backup + WAL archive + `recovery_target_time`
   - [ ] **Rep:** do a full disaster recovery drill. Take a base backup, archive WAL, `DROP TABLE` something important, then recover the database to the moment *before* the drop. Time yourself. Document in `notes/pitr-drill.md`
   - [ ] **Rep:** dump a 10GB database and restore it into a fresh instance with `-j 4`. Record the timing difference vs single-threaded
@@ -170,9 +204,14 @@ assumes you're working against millions of rows.
 
 ---
 
+
+
 ## Phase 3 — Strength (make it fast, keep it correct)
 
+
+
 ### Set 3.1 — Indexes (Postgres docs Ch. 11 + Use The Index, Luke)
+
 - [ ] **B-tree internals**: what a page looks like, why the tree is shallow, why it stays balanced
 - [ ] Index scan vs **index-only scan** (and the visibility map's role) vs bitmap heap scan vs seq scan. Know when a seq scan is *correct*
 - [ ] Composite indexes and the **leftmost prefix rule**. Column order is not arbitrary
@@ -187,7 +226,10 @@ assumes you're working against millions of rows.
 - [ ] **Rep:** take your 5 slowest app queries, index them properly, and record before/after timings in `notes/index-results.md`. Then find and drop an index that is never used (`pg_stat_user_indexes` where `idx_scan = 0`)
 - [ ] **Rep:** demonstrate a case where adding an index makes the overall workload *slower*
 
+
+
 ### Set 3.2 — EXPLAIN and the query planner
+
 - [ ] `EXPLAIN` vs `EXPLAIN ANALYZE` vs `EXPLAIN (ANALYZE, BUFFERS, VERBOSE, SETTINGS, WAL)`. Always use BUFFERS
 - [ ] Read a plan tree correctly: **inside-out, bottom-up**. `cost=start..total rows=N width=B`, `actual time=..`, `loops=N`
 - [ ] **The single most important skill: comparing estimated rows vs actual rows.** A 1000x misestimate is your root cause 80% of the time
@@ -204,7 +246,10 @@ assumes you're working against millions of rows.
 - [ ] **Rep:** find a query where the planner makes a bad choice. Fix it three ways (add an index, add statistics, rewrite the query) and compare. Then fix it the wrong way with `enable_nestloop=off` and explain why that's a bad production fix
 - [ ] **Rep:** take one genuinely slow query from your app and get it 10x faster. Write the full story in `notes/query-postmortem.md`: plan before, hypothesis, change, plan after, measured result
 
+
+
 ### Set 3.3 — Transactions and ACID (Postgres docs Ch. 13)
+
 - [ ] ACID, each letter, with a concrete Postgres mechanism for each: **A**=WAL+abort, **C**=constraints, **I**=MVCC+locks, **D**=WAL fsync at commit
 - [ ] **Rep:** demonstrate each property breaking when you remove its mechanism. E.g. set `synchronous_commit=off`, kill -9 the server mid-write, and show lost-but-committed transactions. This is how ACID stops being an acronym
 - [ ] `BEGIN`/`COMMIT`/`ROLLBACK`, `SAVEPOINT`, `ROLLBACK TO SAVEPOINT`, implicit transactions
@@ -224,7 +269,10 @@ assumes you're working against millions of rows.
 - [ ] **Rep:** your app must retry on serialization failure (SQLSTATE 40001) and deadlock (40P01). Implement and test the retry loop
 - [ ] Read **DDIA Chapter 7 (Transactions)** alongside this set. It's the best written explanation of isolation levels anywhere
 
+
+
 ### Set 3.4 — MVCC and concurrency (this is where Postgres gets interesting)
+
 - [ ] The core idea: readers never block writers, writers never block readers. Understand the cost of that promise
 - [ ] Tuple headers: `xmin`, `xmax`, `ctid`, `cmin/cmax`, infomask
 - [ ] **Rep:** install `pageinspect` and read the raw page. `SELECT lp, t_xmin, t_xmax, t_ctid FROM heap_page_items(get_raw_page('t', 0))`. Update a row and watch the old and new versions both sitting in the page
@@ -242,9 +290,14 @@ assumes you're working against millions of rows.
 
 ---
 
+
+
 ## Phase 4 — Peak (internals, storage, and scale)
 
+
+
 ### Set 4.1 — The architecture (Suzuki Ch. 1–2, Rogov Part I)
+
 - [ ] The process model: postmaster, backends, background writer, checkpointer, WAL writer, autovacuum launcher/workers, stats collector, archiver, logical replication workers
 - [ ] **Rep:** `ps -ef | grep postgres` on your instance and identify every single process. Annotate the output in `notes/pg-processes.md`
 - [ ] Shared memory: shared buffers, WAL buffers, lock tables, `ProcArray`. Why they're in shared memory and not per-backend
@@ -252,19 +305,25 @@ assumes you're working against millions of rows.
 - [ ] The system catalogs: `pg_class`, `pg_attribute`, `pg_index`, `pg_proc`, `pg_namespace`, `pg_am`. Query them directly, don't just use `\d`
 - [ ] **Rep:** reimplement `\d tablename` as a raw SQL query against the catalogs. (Hint: `psql -E` shows you the queries psql itself runs — use that to check yourself)
 
+
+
 ### Set 4.2 — Storage layer (Suzuki Ch. 1, 5, 8, 9)
+
 - [ ] Physical layout: `$PGDATA`, `base/<dboid>/<relfilenode>`, 1GB segment files, `pg_wal/`, `global/`
 - [ ] **Rep:** find the actual file on disk backing one of your tables using `pg_relation_filepath()`. Look at it with `ls -la` and `hexdump`
 - [ ] **Page structure (8KB)**: PageHeader, line pointers (ItemIds), free space, tuples growing from the end, special space. Draw it
 - [ ] `pageinspect` deep dive: `page_header()`, `heap_page_items()`, `bt_page_items()` for index pages
-- [ ] **TOAST** — the oversized-attribute mechanism. Compression, out-of-line storage, the 2KB threshold, `PLAIN/EXTENDED/EXTERNAL/MAIN` storage strategies, and why a `SELECT *` on a TOASTed column is expensive
+- [ ] **TOAST** — the oversized-attribute mechanism. Compression, out-of-line storage, the 2KB threshold, `PLAIN/EXTENDED/EXTERNAL/MAIN` storage strategies, and why a `SELECT `* on a TOASTed column is expensive
 - [ ] **Rep:** store a 1MB text value, find its TOAST table (`pg_class.reltoastrelid`), and count the chunks
 - [ ] **Buffer manager**: buffer pool, buffer tags, the clock-sweep replacement algorithm, pinning, `usage_count`, ring buffers for seq scans (so a big scan doesn't evict your hot pages)
 - [ ] **Rep:** install `pg_buffercache`. Run a query, then inspect which relations occupy shared buffers and their usage counts. Run a huge seq scan and show the ring buffer protecting your cache
 - [ ] Double buffering: OS page cache *under* shared_buffers. Why `shared_buffers = 25% RAM` is the rule of thumb and not 90%
 - [ ] `pg_prewarm`
 
+
+
 ### Set 4.3 — WAL, durability, and replication
+
 - [ ] **Why WAL exists**: the torn-page problem and crash recovery. Write-ahead rule: log record hits disk before the data page
 - [ ] WAL record structure, LSN (Log Sequence Number), `pg_current_wal_lsn()`, WAL segments (16MB default)
 - [ ] **Rep:** `pg_waldump` a segment. Read actual WAL records for an INSERT, an UPDATE, and a COMMIT. Annotate them
@@ -280,7 +339,10 @@ assumes you're working against millions of rows.
 - [ ] **Change Data Capture**: Debezium reading the logical replication stream into Kafka. This is the bridge to Track 09
 - [ ] **Rep:** the orphaned-replication-slot incident: create a slot, never consume it, watch `pg_wal` grow until the disk fills. Then fix it. (This has taken down real companies)
 
+
+
 ### Set 4.4 — Parallel query and execution
+
 - [ ] Gather / Gather Merge nodes, workers, leader participation
 - [ ] `max_parallel_workers_per_gather`, `max_parallel_workers`, `parallel_setup_cost`, `parallel_tuple_cost`, `min_parallel_table_scan_size`
 - [ ] Parallel-safe vs parallel-restricted vs parallel-unsafe functions
@@ -288,7 +350,10 @@ assumes you're working against millions of rows.
 - [ ] **Rep:** take a large aggregation. Force serial (`max_parallel_workers_per_gather=0`) and then allow 4 workers. Compare. Then find a query where parallelism makes it *slower* and explain why
 - [ ] JIT compilation (`jit=on`, LLVM) — when it helps, when it costs more than it saves
 
+
+
 ### Set 4.5 — TimescaleDB and time-series (your listed item)
+
 - [ ] Why time-series is a distinct problem: append-heavy, time-ordered, recent-data-hot, aggregate-over-window queries, retention policies
 - [ ] Install TimescaleDB. **Hypertables** — automatic partitioning by time (and optionally by space/hash)
 - [ ] Chunks, chunk_time_interval sizing, chunk exclusion in plans
@@ -301,7 +366,10 @@ assumes you're working against millions of rows.
 - [ ] Compare against the alternatives: InfluxDB, ClickHouse, Prometheus. When would you *not* pick Timescale?
 - [ ] **Rep (your "real-time data / CDC + CPS" item):** build a small pipeline — a producer writes sensor/market readings → Postgres/Timescale → a continuous aggregate → a dashboard (Grafana) that refreshes live. Then add Debezium CDC off the WAL into a second consumer. Document the end-to-end latency at each hop
 
+
+
 ### Set 4.6 — Sharding and scaling out (bridges to Track 09)
+
 - [ ] The scaling ladder, in order: query tuning → indexing → hardware → read replicas → caching → partitioning → sharding. **Know that sharding is last for a reason**
 - [ ] Read replicas: routing reads, and the **read-your-own-writes** problem replication lag creates
 - [ ] Vertical partitioning vs horizontal partitioning vs sharding — precise definitions
@@ -315,7 +383,10 @@ assumes you're working against millions of rows.
 - [ ] Read **DDIA Chapter 6 (Partitioning)** — you said "sharding, read it first." Do it here, where you have the context to actually absorb it
 - [ ] **Rep:** write `notes/scaling-decision.md` — given a hypothetical service at 50k writes/sec and 5TB, lay out your scaling plan with the reasoning at each step
 
+
+
 ### Set 4.7 — Production operations
+
 - [ ] Monitoring: `pg_stat_activity`, `pg_stat_database`, `pg_stat_user_tables`, `pg_stat_bgwriter`, `pg_locks`, `pg_stat_replication`, `pg_stat_progress_*`
 - [ ] The metrics that matter: cache hit ratio, transaction rate, replication lag, longest transaction, dead tuple ratio, connection count, checkpoint frequency, WAL generation rate
 - [ ] Set up **Prometheus + postgres_exporter + Grafana** against your instance (ties into Track 07)
@@ -324,8 +395,12 @@ assumes you're working against millions of rows.
 - [ ] Extensions worth knowing: `pg_stat_statements`, `pg_trgm`, `postgis`, `pgvector`, `pg_partman`, `pg_cron`, `hypopg` (hypothetical indexes!)
 - [ ] **Rep:** use `hypopg` to test whether an index would help *before* building it on a large table
 
+
+
 ### Set 4.8 — The 3AM database drills
+
 Each drill: reproduce it, diagnose it with only `psql` and the shell, fix it, write it up.
+
 - [ ] **Drill:** "The app is timing out." Find the blocking chain in `pg_locks` + `pg_stat_activity` and identify the root blocker
 - [ ] **Drill:** "Disk is filling up." Distinguish between table bloat, WAL accumulation, an orphaned replication slot, and temp files from a spilling sort
 - [ ] **Drill:** "This query was fast yesterday." Stale statistics, plan flip, parameter sniffing on a prepared statement, or bloat. Work through all four hypotheses
@@ -337,6 +412,8 @@ Each drill: reproduce it, diagnose it with only `psql` and the shell, fix it, wr
 - [ ] **Capstone:** `notes/pg-3am-runbook.md` — the exact queries you'd run, in order, for a database incident
 
 ---
+
+
 
 ## Exit criteria for Track 03
 
