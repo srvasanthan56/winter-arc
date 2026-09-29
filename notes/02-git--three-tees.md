@@ -338,6 +338,13 @@ it's "moving where 'now' is." The branch pointer relocates to an earlier commit
 
 ## Daring stunts
 `git checkout -f HEAD^` - It will checkout a given commit , and destroys any changes 
+
+## Remote Repository
+
+remote branch are on the local repsoitory, they reflect state of remote repositories , and help us understand the difference between local and public 
+
+`git fetch` - is what sync the local representation of the remote repository into sync with actual remote repo,
+- It downloads the remote branches  
 ## Doubts
 
 - git cherry-pick  (try and implement this one )
