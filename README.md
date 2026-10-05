@@ -16,22 +16,23 @@ pick up the next rep, put it down when you're done. The checkboxes are the whole
 ## Progress
 
 <!-- PROGRESS:START -->
-### Overall: 8 / 1255 reps complete — **0.6%**
+### Overall: 17 / 1445 reps complete — **1.2%**
 
 `░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░`
 
 | # | Track | Progress | Done | Status |
 |---|-------|----------|------|--------|
 | 01 | [Linux & Command-Line Toolcraft](tracks/01-linux-and-toolcraft.md) | `░░░░░░░░░░░░░░░░░░░░`   0.0% | 0/107 | not started |
-| 02 | [Git](tracks/02-git.md) | `░░░░░░░░░░░░░░░░░░░░`   0.0% | 0/91 | not started |
-| 03 | [SQL & PostgreSQL](tracks/03-sql-and-postgres.md) | `░░░░░░░░░░░░░░░░░░░░`   0.0% | 0/249 | not started |
+| 02 | [Git](tracks/02-git.md) | `░░░░░░░░░░░░░░░░░░░░`   1.2% | 1/86 | in progress |
+| 03 | [SQL & PostgreSQL](tracks/03-sql-and-postgres.md) | `█░░░░░░░░░░░░░░░░░░░`   2.8% | 7/249 | in progress |
 | 04 | [Operating Systems](tracks/04-os-internals.md) | `░░░░░░░░░░░░░░░░░░░░`   0.0% | 0/112 | not started |
 | 05 | [Networking](tracks/05-networking.md) | `░░░░░░░░░░░░░░░░░░░░`   0.0% | 0/111 | not started |
 | 06 | [Containers, Orchestration & Deployment](tracks/06-containers-and-deploy.md) | `░░░░░░░░░░░░░░░░░░░░`   0.0% | 0/113 | not started |
 | 07 | [Debugging & Observability](tracks/07-debugging-and-observability.md) | `░░░░░░░░░░░░░░░░░░░░`   0.0% | 0/96 | not started |
 | 08 | [Algorithms & Data Structures](tracks/08-algorithms-and-dsa.md) | `░░░░░░░░░░░░░░░░░░░░`   0.0% | 0/110 | not started |
-| 09 | [Distributed Systems & Data Engineering](tracks/09-distributed-systems-and-data.md) | `█░░░░░░░░░░░░░░░░░░░`   4.3% | 8/188 | in progress |
+| 09 | [Distributed Systems & Data Engineering](tracks/09-distributed-systems-and-data.md) | `█░░░░░░░░░░░░░░░░░░░`   4.8% | 9/188 | in progress |
 | 10 | [Capstones](tracks/10-capstones.md) | `░░░░░░░░░░░░░░░░░░░░`   0.0% | 0/78 | not started |
+| 12 | [Web Engineering](tracks/12-web-engineering.md) | `░░░░░░░░░░░░░░░░░░░░`   0.0% | 0/195 | not started |
 
 ### Off-syllabus (does not count toward overall %)
 
@@ -98,8 +99,9 @@ real failure mode. Missing a week costs nothing. Quitting costs everything.
 | 09 | [Distributed Systems & Data](tracks/09-distributed-systems-and-data.md) | Senior. This is the one that changes your level |
 | 10 | [Capstones](tracks/10-capstones.md) | Able to prove all of the above |
 | 11 | [Overflow](tracks/11-overflow.md) | A log for staging, tickets, and random work — **not scored** |
+| 12 | [Web Engineering](tracks/12-web-engineering.md) | Able to rebuild the JS runtime, React, and auth by hand, and ship the full stack |
 
-Track 11 is only an inbox. Tracks 01–10 use four phases:
+Track 11 is only an inbox. Every other track uses four phases:
 
 | Phase | Bodybuilding analogue | What it means here |
 |---|---|---|
@@ -125,16 +127,17 @@ starts now and never stops — 3 problems a week, forever.
 > commit object contains, and you can write a correct multi-join query with window functions.
 
 ### Block 2 — Build
-**Tracks 03 (P2), 06 (P1–2), 05 (P1–2), 07 (P1–2)**
+**Tracks 03 (P2), 06 (P1–2), 05 (P1–2), 07 (P1–2), 12 (P1–2)**
 
 Build the app that everything else hangs off ([Capstone 1](tracks/10-capstones.md)).
 Containerize it. Understand the network underneath it. Learn to debug it properly.
+Track 12 Phases 1–2 (JS runtime, browser) have no prerequisites, so they fit here.
 
 > **Gate:** [Capstone 1](tracks/10-capstones.md) is running with metrics, logs, and traces,
 > and you can explain every packet between your browser and it.
 
 ### Block 3 — Depth
-**Tracks 04 (P0–2), 03 (P3), 01 (P3–4), 02 (P3)**
+**Tracks 04 (P0–2), 03 (P3), 01 (P3–4), 02 (P3), 12 (P3)**
 
 The heavy block. OSTEP and xv6 in parallel with Postgres internals and indexing. These two
 reinforce each other constantly — page caches, WAL, and fsync are the same ideas at
@@ -144,10 +147,11 @@ different layers. **This is where the level change actually happens.**
 > read any `EXPLAIN ANALYZE` plan and say what's wrong with it.
 
 ### Block 4 — Distributed
-**Tracks 09 (P1–2), 04 (P3), 05 (P3), 06 (P3)**
+**Tracks 09 (P1–2), 04 (P3), 05 (P3), 06 (P3), 12 (P4)**
 
 DDIA Parts I and II, with Raft. Kubernetes. TLS and DNS properly. Everything gets bigger
-than one machine.
+than one machine. Track 12 Phase 4 (auth, proxies, shipping the full stack) lands here
+because it needs Track 05's TLS and HTTP sets.
 
 > **Gate:** DDIA Ch. 1–9 read and summarized, Raft leader election and log replication
 > working, and your app running on a real cluster with zero-downtime deploys.
@@ -212,7 +216,8 @@ winter_is_coming/
 │   ├── 08-algorithms-and-dsa.md
 │   ├── 09-distributed-systems-and-data.md
 │   ├── 10-capstones.md
-│   └── 11-overflow.md     <- staging / work / random (not scored)
+│   ├── 11-overflow.md     <- staging / work / random (not scored)
+│   └── 12-web-engineering.md
 ├── work/                  <- everything you build, per track
 │   ├── 01-linux/
 │   ├── 02-git/
@@ -243,6 +248,9 @@ hard in the right way. Nothing is invented for the sake of having an exercise.
 | **Fly.io Gossip Glomers** | Track 09 |
 | **Jepsen** reports and public postmortems | Tracks 07, 09 |
 | **Google SRE Book**, **AWS Builders' Library** | Tracks 06, 07 |
+| **Stanford CS253** Web Security, **MIT 6.858/6.5660** browser-security lab | Track 12 |
+| **PortSwigger Web Security Academy** — XSS, CSRF, CORS, JWT, OAuth labs | Track 12 |
+| **Build Your Own React** (Pombo), **Promises/A+ test suite**, **type-challenges** | Track 12 |
 
 Everything listed is free except the books (DDIA, which you own; OSTEP and Pro Git are free
 online; Agans' *Debugging* is cheap and short).
