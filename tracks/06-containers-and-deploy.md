@@ -100,6 +100,8 @@ memorized.
 - [ ] **pm2** for the Node side of things (already covered in Track 01 Set 2.4) — deploy a Node service under pm2 in cluster mode and compare it with running N containers
 - [ ] **Rep:** load test your containerized API with `k6` or `locust`. Find the bottleneck (it will be the database connection pool). Fix it. Re-test
 
+> **Going further:** [Track 12 Set 4.5](12-web-engineering.md) ships the full stack: a frontend image, runtime config for the SPA, a migration job, and auth working behind a TLS proxy.
+
 ---
 
 ## Phase 3 — Strength (Kubernetes)

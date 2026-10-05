@@ -23,8 +23,9 @@ tested, and what you'd do differently.
 
 ## Capstone 1 — The Instrumented Service (the spine project)
 
-> **Tracks exercised:** 01, 03, 05, 06, 07
+> **Tracks exercised:** 01, 03, 05, 06, 07, 12
 > **Do this one first.** It becomes the substrate you use for exercises in every other track.
+> **Frontend and auth:** Track 12 Phase 4 builds the React client, the session/OAuth auth, and the same-origin proxy setup for this app.
 
 A real, production-shaped service. Not a tutorial app.
 

@@ -136,6 +136,8 @@ track goes a bit past basic, because the basic version doesn't actually let you 
 - [ ] Reverse proxies: nginx/Caddy/Envoy config basics. `proxy_pass`, timeouts, buffering, upstream keepalive
 - [ ] **Rep:** put nginx in front of two instances of your FastAPI app (Track 03/06). Load balance, add health checks, then kill one instance under load and observe the behavior
 
+> **Going further:** [Track 12](12-web-engineering.md) picks up from here. Set 2.4 tests cookie behaviour experimentally, Set 2.5 attacks CORS and CSRF, and Set 4.4 covers what a reverse proxy changes for your app (forwarded headers, WebSockets, SSE, the SPA).
+
 ---
 
 ## Phase 4 — Peak
