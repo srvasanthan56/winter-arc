@@ -40,7 +40,7 @@ assumes you're working against millions of rows.
 - [x] `psql` configured: `~/.psqlrc` with `\timing on`, `\x auto`, `\set HISTSIZE 5000`
 - [x] A GUI for exploring (DBeaver or pgAdmin) — but **psql is your primary tool**
 - [x] Load a real dataset with real volume. Pick two: **Pagila** (DVD rental), **pgexercises' clubdata**, **NYC Taxi trips** (~100M rows), **Stack Overflow dump**, or **IMDb datasets**
-- [ ] `pg_stat_statements` enabled in `postgresql.conf`
+- [x] `pg_stat_statements` enabled in `postgresql.conf`
 
 ---
 
@@ -52,8 +52,8 @@ assumes you're working against millions of rows.
 
 ### Set 1.1 — Relational model first, syntax second
 
-- [ ] What a relation actually is: tuples, attributes, domains, and why order doesn't matter
-- [ ] Keys: candidate, primary, foreign, surrogate vs natural. Composite keys
+- [x] What a relation actually is: tuples, attributes, domains, and why order doesn't matter
+- [x] Keys: candidate, primary, foreign, surrogate vs natural. Composite keys
 - [ ] Normalization 1NF → 2NF → 3NF → BCNF. Be able to normalize a messy spreadsheet on paper
 - [ ] Denormalization: when and why you deliberately break the rules
 - [ ] Relational algebra basics: selection (σ), projection (π), join (⋈), union, difference. This is what the planner actually manipulates
@@ -172,6 +172,8 @@ assumes you're working against millions of rows.
 - [ ] **Row-Level Security (RLS)** — policies, `USING` vs `WITH CHECK`, and multi-tenant isolation. Implement it in your app
 - [ ] **Railway / Neon / Fly.io** — deploy your app + database somewhere real. Note connection limits, pooling mode, and cold starts
 - [ ] **Rep:** write `notes/hosted-postgres.md` comparing what you actually get from Supabase vs Neon vs RDS vs self-hosted
+
+> **Going further:** [Track 12 Set 4.2](12-web-engineering.md) builds this app's data layer with hand-written SQL instead of an ORM. Set 4.1 adds Pydantic contracts and generated TypeScript types, and Set 4.3 adds auth.
 
 
 
@@ -313,7 +315,7 @@ assumes you're working against millions of rows.
 - [ ] **Rep:** find the actual file on disk backing one of your tables using `pg_relation_filepath()`. Look at it with `ls -la` and `hexdump`
 - [ ] **Page structure (8KB)**: PageHeader, line pointers (ItemIds), free space, tuples growing from the end, special space. Draw it
 - [ ] `pageinspect` deep dive: `page_header()`, `heap_page_items()`, `bt_page_items()` for index pages
-- [ ] **TOAST** — the oversized-attribute mechanism. Compression, out-of-line storage, the 2KB threshold, `PLAIN/EXTENDED/EXTERNAL/MAIN` storage strategies, and why a `SELECT `* on a TOASTed column is expensive
+- [ ] **TOAST** — the oversized-attribute mechanism. Compression, out-of-line storage, the 2KB threshold, `PLAIN/EXTENDED/EXTERNAL/MAIN` storage strategies, and why a `SELECT` * on a TOASTed column is expensive
 - [ ] **Rep:** store a 1MB text value, find its TOAST table (`pg_class.reltoastrelid`), and count the chunks
 - [ ] **Buffer manager**: buffer pool, buffer tags, the clock-sweep replacement algorithm, pinning, `usage_count`, ring buffers for seq scans (so a big scan doesn't evict your hot pages)
 - [ ] **Rep:** install `pg_buffercache`. Run a query, then inspect which relations occupy shared buffers and their usage counts. Run a huge seq scan and show the ring buffer protecting your cache
