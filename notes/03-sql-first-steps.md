@@ -75,8 +75,8 @@ eg : (Student_ID, Course_ID) in a Student Tutoring Table (Student_ID, Course_ID,
 Here Student_ID and Course_ID are Prime Attributes , and other columns are called Non Prime Attributes
 
 
+## Normalization
 
-### Normalization
 Database normalization is a database design process that organizes data into specific table structures. It helps to improve data integrity, prevent data anomalies, minimize data redundancy and bolster query performance. - ibm
 
 
@@ -139,6 +139,7 @@ https://www.google.com/search?q=hOW+TO+CREATE+TABLES+IN+MARKDOWN&rlz=1C1GCEA_enI
 
 #### 3.5NF - Boyce-Codd Normal form --> BCNF
 While 3NF fixed the problem of a non key column determining another non key column, BCNF 
+*NOTE* - This happens only in table with composite key 
 
 In BCNF, the rule is absolute:
 • For any dependency X → Y, X MUST be a super key. No exceptions.
@@ -181,3 +182,51 @@ Coach (PK)	Sport
 Coach Dhoni	Cricket
 Coach Nadal	Tennis
 Coach Kohli	Cricket
+
+## Relational Algebra
+Selection - σ - Filtering Rows
+WHERE
+σ dept='CS'
+```
+SELECT student_id, name FROM current_students
+UNION
+SELECT student_id, name FROM graduated_students;
+```
+
+Projection - π - Choosing Columns
+SELECT
+π name
+```
+SELECT name
+FROM student;
+```
+
+Joining - ⋈ - Joining Relations / Tables
+JOIN
+STUDENT ⋈ STUDENT.dept_id = DEPARTMENT.dept_id DEPARTMENT
+```
+SELECT s.name, d.dept_name
+FROM student s
+JOIN department d
+  ON s.dept_id = d.dept_id;
+```
+
+Union - ∪ - Combining rows from two compatible relations
+UNION
+CURRENT_STUDENTS ∪ GRADUATED_STUDENTS
+```
+SELECT student_id, name FROM current_students
+UNION
+SELECT student_id, name FROM graduated_students;
+```
+
+Difference - (-) - (A - B) // rows exist in A but not in B assuming A and B in two compatible relations
+```
+SELECT id
+FROM all_students
+
+EXCEPT
+
+SELECT id
+FROM graduated;
+```

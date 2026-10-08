@@ -54,11 +54,11 @@ assumes you're working against millions of rows.
 
 - [x] What a relation actually is: tuples, attributes, domains, and why order doesn't matter
 - [x] Keys: candidate, primary, foreign, surrogate vs natural. Composite keys
-- [ ] Normalization 1NF → 2NF → 3NF → BCNF. Be able to normalize a messy spreadsheet on paper
-- [ ] Denormalization: when and why you deliberately break the rules
-- [ ] Relational algebra basics: selection (σ), projection (π), join (⋈), union, difference. This is what the planner actually manipulates
+- [x] Normalization 1NF → 2NF → 3NF → BCNF. Be able to normalize a messy spreadsheet on paper
+- [x] Denormalization: when and why you deliberately break the rules
+- [x] Relational algebra basics: selection (σ), projection (π), join (⋈), union, difference. This is what the planner actually manipulates
 - [ ] **Rep:** take a real-world domain (an order system, a ticketing system) and design the schema on paper to 3NF. Then write the DDL. Save to `work/03-postgres/schema-design/`
-- [ ] Read **DDIA Chapter 2** (Data Models) — relational vs document vs graph
+- [x] Read **DDIA Chapter 2** (Data Models) — relational vs document vs graph
 
 
 
