@@ -42,6 +42,9 @@ assumes you're working against millions of rows.
 - [x] Load a real dataset with real volume. Pick two: **Pagila** (DVD rental), **pgexercises' clubdata**, **NYC Taxi trips** (~100M rows), **Stack Overflow dump**, or **IMDb datasets**
 - [x] `pg_stat_statements` enabled in `postgresql.conf`
 
+> **Quick bits** are ≤5-minute tasks for dead time (a pipeline loading, a build running). Keep a `psql` tab open
+> against clubdata/Pagila. Predict first, then run. Log anything surprising in `work/03-postgres/quick-bits.md`.
+
 ---
 
 
@@ -75,6 +78,16 @@ assumes you're working against millions of rows.
 - [ ] Set ops: `UNION` vs `UNION ALL` (know the performance difference), `INTERSECT`, `EXCEPT`
 - [ ] Subqueries: scalar, correlated, `IN`, `ANY`/`ALL`, and when the planner flattens them
 
+**Quick bits:**
+
+- [ ] Predict the output of a `LEFT JOIN` when the right side has no matching row. Then run `members LEFT JOIN bookings` and find members with zero bookings
+- [ ] Explain why `COUNT(*)` differs from `COUNT(column_name)`. Prove it with `SELECT COUNT(*), COUNT(recommendedby) FROM cd.members`
+- [ ] Find duplicate keys with `GROUP BY ... HAVING COUNT(*) > 1`. Insert a duplicate into a scratch table first so there's something to find
+- [ ] Move a condition on the right table from `WHERE` into `ON` in a `LEFT JOIN`. Predict how the row count changes, then check
+- [ ] `SELECT NULL = NULL, NULL IS NULL, NULL IS DISTINCT FROM NULL;` — predict all three before running
+- [ ] Try to use a `SELECT` alias in `WHERE`, read the error, and explain it using the logical order of evaluation
+- [ ] Run `UNION` vs `UNION ALL` on the same two queries. Predict the row-count difference
+
 
 
 ### Set 1.3 — Drills
@@ -84,6 +97,11 @@ assumes you're working against millions of rows.
 - [ ] **pgexercises.com**: String and Date sections
 - [ ] **Rep:** 30 queries against your large dataset, written from business questions, not from schema. E.g. "which customers rented more in the second half of the year than the first?"
 - [ ] Optional: SQL Murder Mystery, Advent of SQL, or LeetCode Database (top 50)
+
+**Quick bits:**
+
+- [ ] One pgexercises.com question per wait. Don't open the hint
+- [ ] Write one business question about Pagila on paper, then the query that answers it
 
 
 
@@ -101,6 +119,13 @@ assumes you're working against millions of rows.
 - [ ] `CYCLE` and `SEARCH` clauses (SQL:99 features Postgres 14+ supports)
 - [ ] Non-recursive CTEs, and the **materialization change in PG12** (`MATERIALIZED` / `NOT MATERIALIZED`) — know why old advice about "CTEs are optimization fences" is now wrong
 
+**Quick bits:**
+
+- [ ] `SELECT generate_series('2026-01-01'::date, '2026-01-31', '1 day');` — then make it hourly
+- [ ] `SELECT now(), now() AT TIME ZONE 'Asia/Kolkata', (now() AT TIME ZONE 'UTC') AT TIME ZONE 'Asia/Kolkata';` — explain each column's type
+- [ ] `SELECT age('2026-03-01', '2026-01-31'), '2026-01-31'::date + interval '1 month';` — predict, then explain the month-end behavior
+- [ ] Write a recursive CTE that counts from 1 to 10. Then break the termination condition and watch it run forever (Ctrl-C)
+
 
 
 ### Set 1.5 — Window functions (the highest-leverage SQL skill)
@@ -113,6 +138,12 @@ assumes you're working against millions of rows.
 - [ ] **Rep:** solve the classic **gaps and islands** problem (find consecutive runs) with window functions
 - [ ] **Rep:** top-N-per-group three ways: window function, `LATERAL`, and `DISTINCT ON`. `EXPLAIN ANALYZE` all three and write down which wins and why
 - [ ] **Cross-link:** you'll redo these exact operations in Spark in Track 09 — note the API differences
+
+**Quick bits:**
+
+- [ ] Run `ROW_NUMBER`, `RANK`, and `DENSE_RANK` side by side on a column with ties. Predict the three columns first
+- [ ] Write `LAST_VALUE` with the default frame, see the "wrong" answer, and fix it with `ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING`
+- [ ] Add a running total of bookings per facility with `SUM(...) OVER (PARTITION BY ... ORDER BY ...)`
 
 ---
 
@@ -133,6 +164,12 @@ assumes you're working against millions of rows.
 - [ ] **Rep:** partition a 50M-row time-series table by month. Measure a range query before and after. Verify pruning in `EXPLAIN`
 - [ ] Views, **materialized views**, `REFRESH MATERIALIZED VIEW CONCURRENTLY` (and its unique-index requirement)
 - [ ] `ALTER TABLE` and which forms take an `ACCESS EXCLUSIVE` lock and rewrite the whole table. **This is the knowledge that prevents outages** — write the safe/unsafe list into `notes/safe-migrations.md`
+
+**Quick bits:**
+
+- [ ] Create a scratch table with a `CHECK (price >= 0)` and break it on purpose. Read the error message
+- [ ] Create a parent/child table with `ON DELETE CASCADE`, delete the parent, and count the children before and after
+- [ ] Run `\d+` on a Pagila table and name every constraint and index you see
 
 
 
@@ -156,6 +193,13 @@ assumes you're working against millions of rows.
 - [ ] Range types + `EXCLUDE` constraints for scheduling problems
 - [ ] `bytea`, and why you usually shouldn't put files in the database
 - [ ] Full text search: `tsvector`, `tsquery`, `to_tsvector`, ranking, GIN index, `pg_trgm` for fuzzy matching
+
+**Quick bits:**
+
+- [ ] `SELECT 0.1::float8 + 0.2::float8 = 0.3, 0.1::numeric + 0.2::numeric = 0.3;` — the money-in-float lesson in one line
+- [ ] `SELECT pg_column_size(1::int4), pg_column_size(1::int8), pg_column_size(gen_random_uuid());`
+- [ ] `SELECT '{"a":{"b":1}}'::jsonb -> 'a', '{"a":{"b":1}}'::jsonb ->> 'a';` — what type does each return?
+- [ ] Insert into a `SERIAL` table inside a transaction, `ROLLBACK`, insert again. Explain the gap
 
 
 
@@ -228,6 +272,13 @@ assumes you're working against millions of rows.
 - [ ] **Rep:** take your 5 slowest app queries, index them properly, and record before/after timings in `notes/index-results.md`. Then find and drop an index that is never used (`pg_stat_user_indexes` where `idx_scan = 0`)
 - [ ] **Rep:** demonstrate a case where adding an index makes the overall workload *slower*
 
+**Quick bits:**
+
+- [ ] Explain why PostgreSQL might not use an index. List at least five reasons: low selectivity, a function on the column, a type mismatch, a leading `%` in `LIKE`, stale statistics, or a table too small to bother
+- [ ] Index `email`, then `EXPLAIN` the query `WHERE lower(email) = '...'`. See the seq scan, add the expression index, and run `EXPLAIN` again
+- [ ] Given an `(a, b)` index, predict which of `WHERE a=`, `WHERE b=`, and `WHERE a= AND b=` can use it. Then check
+- [ ] Run `SELECT relname, idx_scan FROM pg_stat_user_indexes ORDER BY idx_scan;` and find your unused indexes
+
 
 
 ### Set 3.2 — EXPLAIN and the query planner
@@ -247,6 +298,14 @@ assumes you're working against millions of rows.
 - [ ] **Rep:** for each of Seq Scan / Index Scan / Bitmap Heap Scan / Nested Loop / Hash Join / Merge Join, construct a query on your dataset that produces that node. Save all 6 plans, annotated, in `notes/plan-gallery.md`
 - [ ] **Rep:** find a query where the planner makes a bad choice. Fix it three ways (add an index, add statistics, rewrite the query) and compare. Then fix it the wrong way with `enable_nestloop=off` and explain why that's a bad production fix
 - [ ] **Rep:** take one genuinely slow query from your app and get it 10x faster. Write the full story in `notes/query-postmortem.md`: plan before, hypothesis, change, plan after, measured result
+
+**Quick bits:**
+
+- [ ] Read a query plan and find the Seq Scan, Index Scan, or Hash Join. Run `EXPLAIN` on a join between two Pagila tables and name every node
+- [ ] Find one plan node where estimated rows and actual rows differ by more than 10x
+- [ ] Run the same query with a selective filter and then a non-selective one. Watch it flip between Index Scan and Seq Scan
+- [ ] `SET enable_hashjoin = off;` and re-`EXPLAIN` the same join. What does the planner pick instead? Then `RESET enable_hashjoin;`
+- [ ] Paste one plan into explain.dalibo.com and find the most expensive node
 
 
 
@@ -271,6 +330,13 @@ assumes you're working against millions of rows.
 - [ ] **Rep:** your app must retry on serialization failure (SQLSTATE 40001) and deadlock (40P01). Implement and test the retry loop
 - [ ] Read **DDIA Chapter 7 (Transactions)** alongside this set. It's the best written explanation of isolation levels anywhere
 
+**Quick bits:**
+
+- [ ] Open two `psql` tabs. `BEGIN; UPDATE` a row in tab 1, then update the same row in tab 2. Watch it block, then `COMMIT` tab 1
+- [ ] `BEGIN; ... SAVEPOINT s; ... ROLLBACK TO s; COMMIT;` — check which changes survived
+- [ ] Run `SHOW transaction_isolation;` and `SHOW statement_timeout;` on your instance
+- [ ] Name the anomaly from memory: "two doctors both go off call because each saw the other was on call"
+
 
 
 ### Set 3.4 — MVCC and concurrency (this is where Postgres gets interesting)
@@ -289,6 +355,12 @@ assumes you're working against millions of rows.
 - [ ] **Rep:** create bloat deliberately. Update 5M rows repeatedly with autovacuum off. Measure table size growth with `pg_total_relation_size`. Then fix it with `VACUUM FULL` and separately with `pg_repack`. Compare the locking impact
 - [ ] **Rep:** open a transaction and leave it idle. Watch `n_dead_tup` climb on a busy table and vacuum refuse to reclaim. This is the #1 production Postgres incident — you should have caused it once
 - [ ] Compare to other engines: Oracle undo logs, MySQL InnoDB undo/purge, SQL Server. Why Postgres chose in-heap versions and what it costs
+
+**Quick bits:**
+
+- [ ] `SELECT ctid, xmin, xmax, * FROM t LIMIT 3;` then `UPDATE` one row and select again. Which values changed?
+- [ ] `SELECT relname, n_live_tup, n_dead_tup, last_autovacuum FROM pg_stat_user_tables ORDER BY n_dead_tup DESC;`
+- [ ] `SELECT datname, age(datfrozenxid) FROM pg_database;` — how far is each database from wraparound?
 
 ---
 

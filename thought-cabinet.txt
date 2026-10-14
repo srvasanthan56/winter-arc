@@ -9,3 +9,5 @@ I can do this track I guess , track 1 is optional and is everlasting
 Groq
 openrouter
 AI Studio
+
+Need to do Git and 09 track and 08 quickly and with round robin technique
