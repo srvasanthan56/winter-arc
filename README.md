@@ -16,13 +16,13 @@ pick up the next rep, put it down when you're done. The checkboxes are the whole
 ## Progress
 
 <!-- PROGRESS:START -->
-### Overall: 21 / 1512 reps complete — **1.4%**
+### Overall: 22 / 1522 reps complete — **1.4%**
 
 `█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░`
 
 | # | Track | Progress | Done | Status |
 |---|-------|----------|------|--------|
-| 01 | [Linux & Command-Line Toolcraft](tracks/01-linux-and-toolcraft.md) | `░░░░░░░░░░░░░░░░░░░░`   0.0% | 0/135 | not started |
+| 01 | [Linux & Command-Line Toolcraft](tracks/01-linux-and-toolcraft.md) | `░░░░░░░░░░░░░░░░░░░░`   0.7% | 1/145 | in progress |
 | 02 | [Git](tracks/02-git.md) | `░░░░░░░░░░░░░░░░░░░░`   1.2% | 1/86 | in progress |
 | 03 | [SQL & PostgreSQL](tracks/03-sql-and-postgres.md) | `█░░░░░░░░░░░░░░░░░░░`   3.8% | 11/288 | in progress |
 | 04 | [Operating Systems](tracks/04-os-internals.md) | `░░░░░░░░░░░░░░░░░░░░`   0.0% | 0/112 | not started |
@@ -38,7 +38,7 @@ pick up the next rep, put it down when you're done. The checkboxes are the whole
 
 | # | Track | Progress | Done | Status |
 |---|-------|----------|------|--------|
-| 11 | [Overflow](tracks/11-overflow.md) | `░░░░░░░░░░░░░░░░░░░░`    — | 0 logged | inbox empty |
+| 11 | [Overflow](tracks/11-overflow.md) | `░░░░░░░░░░░░░░░░░░░░`   0.0% | 0/2 | 2 open |
 
 _Regenerate with_ `python progress.py`
 <!-- PROGRESS:END -->

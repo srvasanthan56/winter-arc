@@ -40,7 +40,7 @@ Do not invent boxes in advance to make this look full. Empty sections are the he
 Drop a line here first if you do not know which bucket it is. Move it later or leave it.
 
 <!-- add items below this line -->
-
+- [ ] 2026-09-22 · staging · 
 ---
 
 ## Staging
@@ -67,7 +67,7 @@ A CLI you tried, a blog you followed into a rabbit hole, Bluetooth for fun, a on
 script. If it becomes a habit, it probably belongs on Track 01 or 07 instead.
 
 <!-- add items below this line -->
-
+- [ ] 2026-10-23 · Reading database frameworks and sst blog from bit and bytes 
 ---
 
 ## Side experiments

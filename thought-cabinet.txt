@@ -11,3 +11,11 @@ openrouter
 AI Studio
 
 Need to do Git and 09 track and 08 quickly and with round robin technique
+
+
+## 23/10/2026
+-> Complete LSM, bits and ytes
+-> Complete DDIA chapter 
+-> Learn linux and toolcraft
+-> sql and postgres
+

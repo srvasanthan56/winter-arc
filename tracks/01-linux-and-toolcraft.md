@@ -13,13 +13,15 @@ that terminal and reading it.
 
 ## Equipment
 
-| Resource | Use it for |
-|---|---|
-| MIT 6.NULL **The Missing Semester of Your CS Education** (missing.csail.mit.edu) | Lectures 1–4, 6, 8, 9. The backbone of this track. |
-| **The Linux Command Line** — William Shotts (free PDF) | Reference, chapters as needed |
-| Julia Evans zines: *Bite Size Linux*, *Bite Size Networking*, *How Containers Work* | The "oh THAT's what it does" moments |
-| `man`, `tldr`, `--help` | Primary source. Get comfortable reading man pages. |
-| **Linux Performance** — Brendan Gregg (brendangregg.com) | Phase 4 |
+
+| Resource                                                                            | Use it for                                         |
+| ----------------------------------------------------------------------------------- | -------------------------------------------------- |
+| MIT 6.NULL **The Missing Semester of Your CS Education** (missing.csail.mit.edu)    | Lectures 1–4, 6, 8, 9. The backbone of this track. |
+| **The Linux Command Line** — William Shotts (free PDF)                              | Reference, chapters as needed                      |
+| Julia Evans zines: *Bite Size Linux*, *Bite Size Networking*, *How Containers Work* | The "oh THAT's what it does" moments               |
+| `man`, `tldr`, `--help`                                                             | Primary source. Get comfortable reading man pages. |
+| **Linux Performance** — Brendan Gregg (brendangregg.com)                            | Phase 4                                            |
+
 
 **Proof-of-work rule for this track:** every `Rep` produces a file in `work/01-linux/`.
 Scripts get committed. Notes get committed. If it is not committed, it did not happen.
@@ -29,10 +31,15 @@ Scripts get committed. Notes get committed. If it is not committed, it did not h
 
 ---
 
+
+
 ## Phase 1 — Foundation (get the movement pattern right)
 
+
+
 ### Set 1.1 — Shell literacy
-- [ ] Watch Missing Semester L1 (Course Overview + Shell) and L2 (Shell Tools & Scripting)
+
+- [x] Watch Missing Semester L1 (Course Overview + Shell) and L2 (Shell Tools & Scripting)
 - [ ] Learn the navigation core cold: `cd -`, `pushd/popd`, globbing (`*`, `?`, `[]`, `{a,b}`), `~`, tab completion
 - [ ] Understand quoting: single vs double vs backslash vs `$( )`. Know why `rm $file` breaks on spaces
 - [ ] Learn the job control set: `&`, `Ctrl-Z`, `fg`, `bg`, `jobs`, `nohup`, `disown`
@@ -46,7 +53,10 @@ Scripts get committed. Notes get committed. If it is not committed, it did not h
 - [ ] `echo {a,b}{1,2}` and `echo file{1..5}.log` — predict the brace expansion
 - [ ] `sleep 300`, then Ctrl-Z, `bg`, `jobs`, `fg`, Ctrl-C
 
+
+
 ### Set 1.2 — The filesystem is an API
+
 - [ ] Map the FHS: `/etc /var /usr /opt /proc /sys /dev /tmp /home`. Write one line each on what lives there
 - [ ] Permissions: `rwx` for user/group/other, octal notation, `chmod`, `chown`, `umask`
 - [ ] Special bits: setuid, setgid, sticky bit. Explain why `/tmp` has the sticky bit and what `passwd` needs setuid for
@@ -61,7 +71,10 @@ Scripts get committed. Notes get committed. If it is not committed, it did not h
 - [ ] `ls -ld /tmp /usr/bin/passwd` — point at the sticky bit and the setuid bit
 - [ ] `ls -i` on a file and its hard link. Why are the numbers the same?
 
+
+
 ### Set 1.3 — Finding things (your "recursively find files" goal)
+
 - [ ] `find`: `-name`, `-type`, `-mtime`, `-size`, `-maxdepth`, `-exec {} \;` vs `-exec {} +`, `-print0`
 - [ ] `grep` family: `-r`, `-n`, `-i`, `-v`, `-E`, `-A/-B/-C`, `-l`
 - [ ] Regex for real: character classes, anchors, greedy vs lazy, capture groups. Do 30 puzzles on regex101 or regexcrossword.com
@@ -76,7 +89,10 @@ Scripts get committed. Notes get committed. If it is not committed, it did not h
 - [ ] One regexcrossword.com puzzle
 - [ ] Explain the difference between `find . -name '*.log' -exec rm {} \;` and `-exec rm {} +` in one sentence
 
+
+
 ### Set 1.4 — Text as the universal interface
+
 - [ ] Pipes and redirection properly: `|`, `>`, `>>`, `2>`, `2>&1`, `&>`, `<`, `<<<`, `/dev/null`
 - [ ] Understand that `2>&1 > file` and `> file 2>&1` do different things. Explain why in one sentence
 - [ ] `sort`, `uniq -c`, `wc`, `cut`, `tr`, `head`, `tail -f`, `tee`, `column`, `paste`, `comm`
@@ -92,7 +108,10 @@ Scripts get committed. Notes get committed. If it is not committed, it did not h
 - [ ] `echo "a,b,c" | tr ',' '\n'`, then `| paste -sd'|'` to join the lines back together
 - [ ] `seq 1 100 | awk '{s+=$1} END {print s, s/NR}'` — sum and average with awk
 
+
+
 ### Set 1.5 — Editor floor (you need a survival level of vim)
+
 - [ ] Modes, `hjkl`, `w/b/e`, `0/$`, `gg/G`, `/` search, `dd/yy/p`, `u/Ctrl-R`, `:wq`, `:q!`
 - [ ] `.vimrc` with line numbers, sane tabs, and search highlighting
 - [ ] **Rep:** edit a config file on a remote box with vim only, no exceptions, and do not rage quit
@@ -112,18 +131,24 @@ Scripts get committed. Notes get committed. If it is not committed, it did not h
 
 ---
 
+
+
 ## Phase 2 — Volume (the tools you listed, one at a time)
 
 Do these in order. Each one gets a page in `notes/tools/<tool>.md` with: what problem it
 solves, the 5 flags you will actually use, and one real thing you did with it.
 
 ### Set 2.1 — Search and navigation speed
-- [ ] **ripgrep (`rg`)** — why it beats `grep -r` (gitignore awareness, parallelism). `-t`, `-g`, `--hidden`, `-C`, `--files`
+
+- [ ] **ripgrep (**`rg`**)** — why it beats `grep -r` (gitignore awareness, parallelism). `-t`, `-g`, `--hidden`, `-C`, `--files`
 - [ ] **fzf** — fuzzy finding. Wire up `Ctrl-R` history search and `Ctrl-T` file search in your shell
 - [ ] **Rep:** build a `fzf` + `rg` function `fif` ("find in files") that greps content and opens the chosen result in your editor at the right line
 - [ ] **fd** and **bat** as ergonomic `find`/`cat` replacements (optional but you will like them)
 
+
+
 ### Set 2.2 — Seeing the machine
+
 - [ ] **htop / btop** — read every column: PID, USER, PRI, NI, VIRT, RES, SHR, S, %CPU, %MEM, TIME+. Know what `S` states mean (R, S, D, Z, T)
 - [ ] Explain the difference between VIRT and RES to a junior in `notes/tools/htop.md`
 - [ ] Load average: what does `1.7` mean on an 8-core box? Why is it not a percentage?
@@ -139,7 +164,10 @@ solves, the 5 flags you will actually use, and one real thing you did with it.
 - [ ] `du -sh ~/* 2>/dev/null | sort -h | tail -5` — what's eating your home dir?
 - [ ] `vmstat 1 5` — read the `r`, `b`, `si/so`, and `wa` columns
 
+
+
 ### Set 2.3 — strace and friends (the superpower)
+
 - [ ] **strace** basics: `strace ls`, `-e trace=openat`, `-f` (follow forks), `-p` (attach), `-c` (summary), `-o` (output file), `-s` (string length)
 - [ ] Understand what a syscall IS before going deep (this dovetails with Track 04 Set 1.2)
 - [ ] **Rep:** `strace -f -e trace=openat python -c "import json"` — write down every path Python probes and explain the import search order
@@ -147,7 +175,10 @@ solves, the 5 flags you will actually use, and one real thing you did with it.
 - [ ] `ltrace` (library calls), `lsof` (open files/sockets), `/proc/<pid>/` (maps, fd, status, cmdline, environ)
 - [ ] **Rep:** dump `/proc/<pid>/maps` for a running process and identify the heap, stack, and shared libraries
 
+
+
 ### Set 2.4 — Processes, daemons, and services (your "daemon process" goal)
+
 - [ ] Process lifecycle: fork → exec → wait → exit. Zombies and orphans. Who reaps?
 - [ ] Signals: SIGTERM vs SIGKILL vs SIGHUP vs SIGINT vs SIGSTOP. Which ones can be caught?
 - [ ] What actually makes a daemon: fork twice, `setsid`, chdir `/`, close/redirect fds 0/1/2, write a pidfile
@@ -166,7 +197,10 @@ solves, the 5 flags you will actually use, and one real thing you did with it.
 - [ ] `pstree -p $$` — where does your shell sit in the process tree?
 - [ ] Write a cron expression for "every weekday at 02:30" from memory, then check it on crontab.guru
 
+
+
 ### Set 2.5 — Moving data and remote work
+
 - [ ] **ssh**: keys vs passwords, `~/.ssh/config` (Host aliases, IdentityFile, ProxyJump), agent forwarding and why it's risky
 - [ ] `ssh -L` local forward, `-R` remote forward, `-D` SOCKS proxy. Draw all three in `notes/tools/ssh-tunnels.md`
 - [ ] **Rep:** reach a database on a private network from your laptop using only an SSH tunnel through a bastion
@@ -178,14 +212,20 @@ solves, the 5 flags you will actually use, and one real thing you did with it.
 - [ ] **tmux**: sessions/windows/panes, detach/attach. Why this matters when your SSH drops mid-migration
 - [ ] **Rep:** start a long job in tmux, kill your network, reconnect, and find it still running
 
+
+
 ### Set 2.6 — Logs and the things that generate them
+
 - [ ] Where logs live: `/var/log/`, journald, app-local. `dmesg` for kernel
 - [ ] `logrotate` — config anatomy, why unrotated logs kill servers
 - [ ] Log levels and structured logging: why `logger.info(f"user {id} failed")` is worse than structured JSON
 - [ ] **Rep:** instrument your daemon with structured logs, ship them to a file, rotate with logrotate, and write one `jq` query that answers "how many errors in the last hour, grouped by error type"
 - [ ] `jq` fundamentals: `.`, `.[]`, `select()`, `map()`, `group_by`, `-r`
 
+
+
 ### Set 2.7 — The question you asked: why GUI apps don't open over SSH
+
 - [ ] Read up on X11: the X server, the X client, `$DISPLAY`, and why the naming feels backwards
 - [ ] Wayland vs X11, and why `xeyes` over SSH is a different problem than `firefox` over SSH
 - [ ] `ssh -X` vs `ssh -Y`, `xauth`, and the security tradeoff
@@ -194,9 +234,14 @@ solves, the 5 flags you will actually use, and one real thing you did with it.
 
 ---
 
+
+
 ## Phase 3 — Strength (compose the tools into real capability)
 
+
+
 ### Set 3.1 — Shell scripting that doesn't embarrass you
+
 - [ ] `set -euo pipefail` and what each flag prevents
 - [ ] Functions, `local`, arrays, `[[ ]]` vs `[ ]`, arithmetic `(( ))`
 - [ ] Argument parsing with `getopts`, usage/help text, exit codes that mean something
@@ -212,7 +257,10 @@ solves, the 5 flags you will actually use, and one real thing you did with it.
 - [ ] Run `shellcheck` on one script you've already written and fix one warning
 - [ ] `[ $x = "a" ]` vs `[[ $x = "a" ]]` with `x` unset — predict which one errors
 
+
+
 ### Set 3.2 — Users, packages, networking basics on a box
+
 - [ ] Users and groups, `sudo` and `/etc/sudoers`, `su -` vs `sudo -i`
 - [ ] Package managers: `apt` (dpkg), what a PPA is, why `apt` and `pip install` fighting over the same package is a real problem
 - [ ] `ss -tulpn` (who's listening), `ip addr`, `ip route`, `ping`, `traceroute`, `dig`
@@ -220,13 +268,18 @@ solves, the 5 flags you will actually use, and one real thing you did with it.
 - [ ] **Rep:** provision a fresh VM from scratch: non-root user with sudo, SSH key-only auth, password auth disabled, ufw allowing only 22/80/443, fail2ban installed. Document every step in `notes/vm-hardening.md`
 - [ ] **Rep:** now write that entire provisioning as one idempotent script you can rerun safely
 
+
+
 ### Set 3.3 — Understanding what a "distribution" is
+
 - [ ] Boot sequence at a high level: BIOS/UEFI → bootloader → kernel → init (systemd) → getty/login
 - [ ] Kernel vs userspace. Where the line is. What `uname -a` is telling you
 - [ ] `/etc/environment`, `.bashrc` vs `.bash_profile` vs `.profile` — which runs when, and why your PATH works interactively but not in cron
 - [ ] **Rep:** debug a "works in my shell, fails in cron" problem end to end and write up the root cause
 
 ---
+
+
 
 ## Phase 4 — Peak (3AM readiness drills)
 
@@ -245,6 +298,8 @@ Log each one in `work/01-linux/drills/<name>.md` with symptom → hypotheses →
 - [ ] **Capstone:** write `notes/3am-runbook.md` — your personal triage checklist, in the order you'd actually run it, with the exact commands. This is the artifact that makes you the person they call.
 
 ---
+
+
 
 ## Exit criteria for Track 01
 
