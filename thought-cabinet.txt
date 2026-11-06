@@ -19,3 +19,6 @@ Need to do Git and 09 track and 08 quickly and with round robin technique
 -> Learn linux and toolcraft
 -> sql and postgres
 
+30/10/2026 - Complete three sets in postgres
+Complete 1 set in dsa 
+

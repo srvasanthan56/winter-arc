@@ -13,7 +13,6 @@ that terminal and reading it.
 
 ## Equipment
 
-
 | Resource                                                                            | Use it for                                         |
 | ----------------------------------------------------------------------------------- | -------------------------------------------------- |
 | MIT 6.NULL **The Missing Semester of Your CS Education** (missing.csail.mit.edu)    | Lectures 1–4, 6, 8, 9. The backbone of this track. |
@@ -21,7 +20,6 @@ that terminal and reading it.
 | Julia Evans zines: *Bite Size Linux*, *Bite Size Networking*, *How Containers Work* | The "oh THAT's what it does" moments               |
 | `man`, `tldr`, `--help`                                                             | Primary source. Get comfortable reading man pages. |
 | **Linux Performance** — Brendan Gregg (brendangregg.com)                            | Phase 4                                            |
-
 
 **Proof-of-work rule for this track:** every `Rep` produces a file in `work/01-linux/`.
 Scripts get committed. Notes get committed. If it is not committed, it did not happen.
@@ -31,16 +29,12 @@ Scripts get committed. Notes get committed. If it is not committed, it did not h
 
 ---
 
-
-
 ## Phase 1 — Foundation (get the movement pattern right)
-
-
 
 ### Set 1.1 — Shell literacy
 
 - [x] Watch Missing Semester L1 (Course Overview + Shell) and L2 (Shell Tools & Scripting)
-- [ ] Learn the navigation core cold: `cd -`, `pushd/popd`, globbing (`*`, `?`, `[]`, `{a,b}`), `~`, tab completion
+- [x] Learn the navigation core cold: `cd -`, `pushd/popd`, globbing (`*`, `?`, `[]`, `{a,b}`), `~`, tab completion
 - [ ] Understand quoting: single vs double vs backslash vs `$( )`. Know why `rm $file` breaks on spaces
 - [ ] Learn the job control set: `&`, `Ctrl-Z`, `fg`, `bg`, `jobs`, `nohup`, `disown`
 - [ ] **Rep:** write `bin/backup.sh` that takes a directory, tars it with a timestamped name, and refuses to run if the target exists. Handle spaces in filenames correctly.
@@ -52,8 +46,6 @@ Scripts get committed. Notes get committed. If it is not committed, it did not h
 - [ ] `echo '$HOME' "$HOME" $(date +%F)` — predict all three outputs
 - [ ] `echo {a,b}{1,2}` and `echo file{1..5}.log` — predict the brace expansion
 - [ ] `sleep 300`, then Ctrl-Z, `bg`, `jobs`, `fg`, Ctrl-C
-
-
 
 ### Set 1.2 — The filesystem is an API
 
@@ -71,8 +63,6 @@ Scripts get committed. Notes get committed. If it is not committed, it did not h
 - [ ] `ls -ld /tmp /usr/bin/passwd` — point at the sticky bit and the setuid bit
 - [ ] `ls -i` on a file and its hard link. Why are the numbers the same?
 
-
-
 ### Set 1.3 — Finding things (your "recursively find files" goal)
 
 - [ ] `find`: `-name`, `-type`, `-mtime`, `-size`, `-maxdepth`, `-exec {} \;` vs `-exec {} +`, `-print0`
@@ -88,8 +78,6 @@ Scripts get committed. Notes get committed. If it is not committed, it did not h
 - [ ] `grep -rn --include='*.md' 'Rep:' tracks/ | wc -l` — how many reps are in the program?
 - [ ] One regexcrossword.com puzzle
 - [ ] Explain the difference between `find . -name '*.log' -exec rm {} \;` and `-exec rm {} +` in one sentence
-
-
 
 ### Set 1.4 — Text as the universal interface
 
@@ -107,8 +95,6 @@ Scripts get committed. Notes get committed. If it is not committed, it did not h
 - [ ] `cut -d: -f1,7 /etc/passwd | column -t -s:` — which users have a real shell?
 - [ ] `echo "a,b,c" | tr ',' '\n'`, then `| paste -sd'|'` to join the lines back together
 - [ ] `seq 1 100 | awk '{s+=$1} END {print s, s/NR}'` — sum and average with awk
-
-
 
 ### Set 1.5 — Editor floor (you need a survival level of vim)
 
@@ -131,8 +117,6 @@ Scripts get committed. Notes get committed. If it is not committed, it did not h
 
 ---
 
-
-
 ## Phase 2 — Volume (the tools you listed, one at a time)
 
 Do these in order. Each one gets a page in `notes/tools/<tool>.md` with: what problem it
@@ -144,8 +128,6 @@ solves, the 5 flags you will actually use, and one real thing you did with it.
 - [ ] **fzf** — fuzzy finding. Wire up `Ctrl-R` history search and `Ctrl-T` file search in your shell
 - [ ] **Rep:** build a `fzf` + `rg` function `fif` ("find in files") that greps content and opens the chosen result in your editor at the right line
 - [ ] **fd** and **bat** as ergonomic `find`/`cat` replacements (optional but you will like them)
-
-
 
 ### Set 2.2 — Seeing the machine
 
@@ -164,8 +146,6 @@ solves, the 5 flags you will actually use, and one real thing you did with it.
 - [ ] `du -sh ~/* 2>/dev/null | sort -h | tail -5` — what's eating your home dir?
 - [ ] `vmstat 1 5` — read the `r`, `b`, `si/so`, and `wa` columns
 
-
-
 ### Set 2.3 — strace and friends (the superpower)
 
 - [ ] **strace** basics: `strace ls`, `-e trace=openat`, `-f` (follow forks), `-p` (attach), `-c` (summary), `-o` (output file), `-s` (string length)
@@ -174,8 +154,6 @@ solves, the 5 flags you will actually use, and one real thing you did with it.
 - [ ] **Rep:** take a program that fails with a useless error message ("Permission denied", no path) and find the exact file it choked on using strace only
 - [ ] `ltrace` (library calls), `lsof` (open files/sockets), `/proc/<pid>/` (maps, fd, status, cmdline, environ)
 - [ ] **Rep:** dump `/proc/<pid>/maps` for a running process and identify the heap, stack, and shared libraries
-
-
 
 ### Set 2.4 — Processes, daemons, and services (your "daemon process" goal)
 
@@ -197,8 +175,6 @@ solves, the 5 flags you will actually use, and one real thing you did with it.
 - [ ] `pstree -p $$` — where does your shell sit in the process tree?
 - [ ] Write a cron expression for "every weekday at 02:30" from memory, then check it on crontab.guru
 
-
-
 ### Set 2.5 — Moving data and remote work
 
 - [ ] **ssh**: keys vs passwords, `~/.ssh/config` (Host aliases, IdentityFile, ProxyJump), agent forwarding and why it's risky
@@ -212,8 +188,6 @@ solves, the 5 flags you will actually use, and one real thing you did with it.
 - [ ] **tmux**: sessions/windows/panes, detach/attach. Why this matters when your SSH drops mid-migration
 - [ ] **Rep:** start a long job in tmux, kill your network, reconnect, and find it still running
 
-
-
 ### Set 2.6 — Logs and the things that generate them
 
 - [ ] Where logs live: `/var/log/`, journald, app-local. `dmesg` for kernel
@@ -221,8 +195,6 @@ solves, the 5 flags you will actually use, and one real thing you did with it.
 - [ ] Log levels and structured logging: why `logger.info(f"user {id} failed")` is worse than structured JSON
 - [ ] **Rep:** instrument your daemon with structured logs, ship them to a file, rotate with logrotate, and write one `jq` query that answers "how many errors in the last hour, grouped by error type"
 - [ ] `jq` fundamentals: `.`, `.[]`, `select()`, `map()`, `group_by`, `-r`
-
-
 
 ### Set 2.7 — The question you asked: why GUI apps don't open over SSH
 
@@ -234,11 +206,7 @@ solves, the 5 flags you will actually use, and one real thing you did with it.
 
 ---
 
-
-
 ## Phase 3 — Strength (compose the tools into real capability)
-
-
 
 ### Set 3.1 — Shell scripting that doesn't embarrass you
 
@@ -257,8 +225,6 @@ solves, the 5 flags you will actually use, and one real thing you did with it.
 - [ ] Run `shellcheck` on one script you've already written and fix one warning
 - [ ] `[ $x = "a" ]` vs `[[ $x = "a" ]]` with `x` unset — predict which one errors
 
-
-
 ### Set 3.2 — Users, packages, networking basics on a box
 
 - [ ] Users and groups, `sudo` and `/etc/sudoers`, `su -` vs `sudo -i`
@@ -268,8 +234,6 @@ solves, the 5 flags you will actually use, and one real thing you did with it.
 - [ ] **Rep:** provision a fresh VM from scratch: non-root user with sudo, SSH key-only auth, password auth disabled, ufw allowing only 22/80/443, fail2ban installed. Document every step in `notes/vm-hardening.md`
 - [ ] **Rep:** now write that entire provisioning as one idempotent script you can rerun safely
 
-
-
 ### Set 3.3 — Understanding what a "distribution" is
 
 - [ ] Boot sequence at a high level: BIOS/UEFI → bootloader → kernel → init (systemd) → getty/login
@@ -278,8 +242,6 @@ solves, the 5 flags you will actually use, and one real thing you did with it.
 - [ ] **Rep:** debug a "works in my shell, fails in cron" problem end to end and write up the root cause
 
 ---
-
-
 
 ## Phase 4 — Peak (3AM readiness drills)
 
@@ -298,8 +260,6 @@ Log each one in `work/01-linux/drills/<name>.md` with symptom → hypotheses →
 - [ ] **Capstone:** write `notes/3am-runbook.md` — your personal triage checklist, in the order you'd actually run it, with the exact commands. This is the artifact that makes you the person they call.
 
 ---
-
-
 
 ## Exit criteria for Track 01
 

@@ -230,3 +230,22 @@ EXCEPT
 SELECT id
 FROM graduated;
 ```
+## Postgres Cheatcode
+
+Command	What it shows
+\conninfo	Current connection details
+\l	All databases
+\du	All users and roles
+\dn	All schemas in the current database
+\dt *.*	Tables across visible schemas
+\dv *.*	Views across visible schemas
+\dp	Table and view permissions
+\dx	Installed extensions
+
+## SQL Language
+
+
+
+### Types
+
+#### Numeric types
