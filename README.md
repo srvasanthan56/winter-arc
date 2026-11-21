@@ -16,13 +16,13 @@ pick up the next rep, put it down when you're done. The checkboxes are the whole
 ## Progress
 
 <!-- PROGRESS:START -->
-### Overall: 23 / 1522 reps complete — **1.5%**
+### Overall: 27 / 1522 reps complete — **1.8%**
 
 `█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░`
 
 | # | Track | Progress | Done | Status |
 |---|-------|----------|------|--------|
-| 01 | [Linux & Command-Line Toolcraft](tracks/01-linux-and-toolcraft.md) | `░░░░░░░░░░░░░░░░░░░░`   1.4% | 2/145 | in progress |
+| 01 | [Linux & Command-Line Toolcraft](tracks/01-linux-and-toolcraft.md) | `█░░░░░░░░░░░░░░░░░░░`   4.1% | 6/145 | in progress |
 | 02 | [Git](tracks/02-git.md) | `░░░░░░░░░░░░░░░░░░░░`   1.2% | 1/86 | in progress |
 | 03 | [SQL & PostgreSQL](tracks/03-sql-and-postgres.md) | `█░░░░░░░░░░░░░░░░░░░`   3.8% | 11/288 | in progress |
 | 04 | [Operating Systems](tracks/04-os-internals.md) | `░░░░░░░░░░░░░░░░░░░░`   0.0% | 0/112 | not started |

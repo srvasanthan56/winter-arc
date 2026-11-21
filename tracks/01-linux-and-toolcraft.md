@@ -35,15 +35,15 @@ Scripts get committed. Notes get committed. If it is not committed, it did not h
 
 - [x] Watch Missing Semester L1 (Course Overview + Shell) and L2 (Shell Tools & Scripting)
 - [x] Learn the navigation core cold: `cd -`, `pushd/popd`, globbing (`*`, `?`, `[]`, `{a,b}`), `~`, tab completion
-- [ ] Understand quoting: single vs double vs backslash vs `$( )`. Know why `rm $file` breaks on spaces
-- [ ] Learn the job control set: `&`, `Ctrl-Z`, `fg`, `bg`, `jobs`, `nohup`, `disown`
+- [x] Understand quoting: single vs double vs backslash vs `$( )`. Know why `rm $file` breaks on spaces
+- [x] Learn the job control set: `&`, `Ctrl-Z`, `fg`, `bg`, `jobs`, `nohup`, `disown`
 - [ ] **Rep:** write `bin/backup.sh` that takes a directory, tars it with a timestamped name, and refuses to run if the target exists. Handle spaces in filenames correctly.
 - [ ] **Rep:** write a script that is *wrong* about quoting, watch it delete the wrong thing in a sandbox dir, then fix it. You must feel this once.
 
 **Quick bits:**
 
-- [ ] `f="my file.txt"; touch "$f"; ls $f; ls "$f"` — explain why the first `ls` fails
-- [ ] `echo '$HOME' "$HOME" $(date +%F)` — predict all three outputs
+- [x] `f="my file.txt"; touch "$f"; ls $f; ls "$f"` — explain why the first `ls` fails
+- [x] `echo '$HOME' "$HOME" $(date +%F)` — predict all three outputs
 - [ ] `echo {a,b}{1,2}` and `echo file{1..5}.log` — predict the brace expansion
 - [ ] `sleep 300`, then Ctrl-Z, `bg`, `jobs`, `fg`, Ctrl-C
 

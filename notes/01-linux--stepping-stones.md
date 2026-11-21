@@ -58,4 +58,32 @@ img_012 img_014 img_016 img_018
 - Braces are completely different. They don’t look at files at all. They write out text for you.
 - Quotes turn off brace expansion
 
+Putting quotes like this will work 
+```bash
+❯ echo "IronMan Mark"{I,II,III,IV,V}"Series "                                                       ✔  16:45:30
+IronMan MarkISeries  IronMan MarkIISeries  IronMan MarkIIISeries  IronMan MarkIVSeries  IronMan MarkVSeries
+```
+
+Quotes
+'...' - Protect everything, Nothing is interpreted
+"..." - Protect most things , Vars and command substituion still work 
+`...` - Run a command insert its output 
+$()   - Run a command, insert its output (modern)
+
+Misc Eg:
+```
+vasanthansr@Vasanthan-SR ~
+❯ echo "to find the line count - $(ls | wc -l)"                                                             ✔  16:55:54
+to find the line count - 117
+vasanthansr@Vasanthan-SR ~
+```
+
+
+## Linux TTY
+
+A terminal emulator is the window. Windows Terminal, Alacritty, GNOME Terminal, and the VS Code terminal are four of them. Each one draws glyphs and turns your keystrokes into bytes. None of them is the shell. Each one, when it opens a tab, asks the kernel for a pseudoterminal.
+
+A tty (teletype) --> kernel's traditional name for terminal, so it is what gets connected to a computer by serial cable
+
+A pts (pseudo terminal slave) is a tty with no cable ( master - emu, slave - /dev/pts/0, /dev/pts/1)
 
