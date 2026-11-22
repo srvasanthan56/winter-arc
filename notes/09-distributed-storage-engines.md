@@ -115,10 +115,175 @@ In turn it has high write throughput
 
 TODO : Lucene, elastic search, solr, cassandra,  ~~text~~,  DB, riak, AVL , Red Black Trees 
 
-Design
-Comm
 
-    Conscious effort
+So In a LSM design,
+The already sorted tables are immutable ones, that are intended only for reading
+
+To make it sound hard, lets go to an example
+- Imagine we are a maintaing a Dictionary of word and its meanings, So We Keep the words and its meaning in a Cabinet / Mini Dictionary (SSTables) These are arranged alphabetically 
+- Along side we also have a Scratchpad (MemTable - an inmemory sorted data structure), this holds newly entered words eg.(delulu, rizz), this does not readily stored or placed with the Mini Dicts . Also before writing into a scratchpad , it is always written into a disk which is called as WAL, to protect memtable during powerfailure 
+
+CASE 1 - Fresh Start 
+
+ Incoming Data                    
+      │                           
+      │                           
+      ▼                           
+┌───────────────┐                 
+│               │                 
+│   Logbook     ├───Empty (disk)  
+│    (WAL)      │                 
+│               │                 
+│   Scratchpad  ├───Empty (memory)
+│  (MemTables)  │                 
+│               │                 
+│   Shelves     │                 
+│   (SSTables)  │───Empty (disk)
+│               │                 
+│               │                 
+└───────────────┘                 
+
+CASE 2 - New words arrive 
+
+        WAL                                                                 
+┌────────────────────────────────────┐                                      
+│     Record 1: Apple                │                                      
+│                                    │                                      
+│     Record 2: mango                │                                      
+│                                    │                                      
+│     Record 3: Zebra                │                                      
+└────────────────────────────────────┘                                      
+        Memtable                                                            
+ ┌───────────────────────────────────┐                                      
+ │     1. Apple                      │                                      
+ │     2. Mango                      ┼──── Inserted and sorted immediately  
+ │     3. Zebra                      │     because of the R&B Data structure
+ │                                   │                                      
+ │                                   │                                      
+ └───────────────────────────────────┘                                      
+                                                                            
+      SST - Empty                                                           
+
+CASE 3 - Memtable gets full
+
+┌────────────────────────────────┐                             
+│     Once the MemTable reached  │                             
+│     its limit it tends to      │                             
+│     frozen                     │                             
+│                                │                             
+└───────────────┬────────────────┘                             
+                │                                              
+                │                                              
+                ▼                                              
+ ┌──────────────────────────────┐                              
+ │   A New SSTable gets created │        Generates bloom filter
+ │   on disk , with sorted      │          and created sparse  
+ │   words                      │           index into the RAM 
+ │                              │                              
+ └──────────────┬───────────────┘                              
+                │                                              
+                │                                              
+ ┌──────────────▼────────────────┐                             
+ │      Memtable is Cleared      │                             
+ │      along side WAL           │                             
+ │                               │                             
+ └───────────────────────────────┘       
+
+ CASE 4a - Fetching a record 
+
+            QUERY : Apple                                                                   
+                      │                                                                     
+                      ▼                                                                     
+                   MemTable                                                                 
+              ┌─────────────────────────────┐           Apple Not                           
+              │      Mango                  ├─────────   Present                            
+              │      Zebra                  │              in                               
+              │                             │           MemTable                            
+              └────────┬────────────────────┘                                               
+                       ▼                                                                    
+                    The Shelf (SSTables)                                                    
+┌──────────────────────────────────────────────────────────────────────┐                    
+│       sst 1             sst 2               sst 3                    │                    
+│     ┌───────────┐    ┌───────────┐       ┌───────────┐               │                    
+│     │ apple v1  │    │  apple v2 │       │ zebra     │               │                    
+│     │ (adam)    │    │   (newton)│       │  (newest) │               │                    
+│     │           │    │           │       │           │               │                    
+│     │           │    │           │       │           │               │                    
+│     └───────────┘    └───────────┘       └───────────┘               │                    
+│                                                                      │                    
+└───────────────────┬──────────────────────────────────────────────────┘                    
+                    │                                                                       
+                    │                     Bloom filter tells that sst3 -> No                
+                    └───────────────────             sst 2 -> Probably                      
+                                             Using sparse tree , we can find the byte offset
+                                              of apple location ,                           
+
+ 
+CASE 4b - Merge thread 
+
+                    The Shelf (SSTables)                                
+┌──────────────────────────────────────────────────────────────────────┐
+│       sst 1             sst 2               sst 3                    │
+│     ┌───────────┐    ┌───────────┐       ┌───────────┐               │
+│     │ apple v1  │    │  apple v2 │       │ zebra     │               │
+│     │ (adam)    │    │   (newton)│       │  (newest) │               │
+│     │           │    │           │       │           │               │
+│     │           │    │           │       │           │               │
+│     └───────────┘    └───────────┘       └───────────┘               │
+│                                                                      │
+└─────────────────────────────┬────────────────────────────────────────┘
+                              │                                         
+                      JANITOR │(Merge Thread)                           
+                  ┌───────────▼───────────────────────────────┐         
+                  │                                           │         
+                  │  - Reads all 3 files sequentially         │         
+                  │                                           │         
+                  │  - Sees two records and throws apple v1   │         
+                  │                                           │         
+                  │  - Writes them into single file           │         
+                  │                                           │         
+                  │  - This is a background process, which runs         
+                  │           occassionally                   │         
+                  │                                           │         
+                  │                                           │         
+                  └──────────────┬────────────────────────────┘         
+                                 │                                      
+                              sst│1                                     
+                           ┌─────▼─────┐                                
+                           │  apple v2 │                                
+                           │           │                                
+                           │  zebra    │                                
+                           │           │                                
+                           └───────────┘                              
+
+CASE 5 - Crash Recovery
+
+Scratchpad (Running)       ----------> Log Book
+|
+|
+Power Cut
+
+After Power Restore
+
+Scratchpad (Gets value from WAL) <------- Log Book
+|
+|
+|_______________________________ > Deleted Logbook , system recovereed 
 
 
 
+## How Data is read on a disk (HDD)
+
+Plate - disk like structure as microscopic north and south poles
+Spindle - a motor that rotates the disk with a constand speed
+actuator Arm  - a mechanical arm with tiny magnetic head above spinning platter reads the magnetic fields 
+
+Sector - a smallest part of a track 
+Track - concentric cirles
+
+### Read Process
+1. Taking an offset the arm moves to the appropriate track , this is called seek time (milliseconds)
+2. Spinning to take that specific sector 
+3. and reading of that data of the sector 
+
+"So Sequential is Good"

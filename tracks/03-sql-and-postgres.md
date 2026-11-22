@@ -67,7 +67,7 @@ assumes you're working against millions of rows.
 
 ### Set 1.2 — The SQL language (Postgres docs Ch. 4, "SQL Syntax")
 
-- [ ] `SELECT`, `WHERE`, `ORDER BY`, `LIMIT`/`OFFSET`, `DISTINCT`, `DISTINCT ON` (a Postgres gift)
+- [x] `SELECT`, `WHERE`, `ORDER BY`, `LIMIT`/`OFFSET`, `DISTINCT`, `DISTINCT ON` (a Postgres gift)
 - [ ] **Logical order of evaluation**: FROM → WHERE → GROUP BY → HAVING → SELECT → DISTINCT → ORDER BY → LIMIT. Memorize this. It explains why you can't use a SELECT alias in WHERE
 - [ ] Joins: INNER, LEFT, RIGHT, FULL, CROSS, and `LATERAL` (the one most people never learn — learn it)
 - [ ] Self-joins, anti-joins (`NOT EXISTS`), semi-joins (`EXISTS`)

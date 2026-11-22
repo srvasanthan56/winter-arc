@@ -16,7 +16,7 @@ pick up the next rep, put it down when you're done. The checkboxes are the whole
 ## Progress
 
 <!-- PROGRESS:START -->
-### Overall: 27 / 1522 reps complete — **1.8%**
+### Overall: 28 / 1522 reps complete — **1.8%**
 
 `█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░`
 
@@ -24,7 +24,7 @@ pick up the next rep, put it down when you're done. The checkboxes are the whole
 |---|-------|----------|------|--------|
 | 01 | [Linux & Command-Line Toolcraft](tracks/01-linux-and-toolcraft.md) | `█░░░░░░░░░░░░░░░░░░░`   4.1% | 6/145 | in progress |
 | 02 | [Git](tracks/02-git.md) | `░░░░░░░░░░░░░░░░░░░░`   1.2% | 1/86 | in progress |
-| 03 | [SQL & PostgreSQL](tracks/03-sql-and-postgres.md) | `█░░░░░░░░░░░░░░░░░░░`   3.8% | 11/288 | in progress |
+| 03 | [SQL & PostgreSQL](tracks/03-sql-and-postgres.md) | `█░░░░░░░░░░░░░░░░░░░`   4.2% | 12/288 | in progress |
 | 04 | [Operating Systems](tracks/04-os-internals.md) | `░░░░░░░░░░░░░░░░░░░░`   0.0% | 0/112 | not started |
 | 05 | [Networking](tracks/05-networking.md) | `░░░░░░░░░░░░░░░░░░░░`   0.0% | 0/111 | not started |
 | 06 | [Containers, Orchestration & Deployment](tracks/06-containers-and-deploy.md) | `░░░░░░░░░░░░░░░░░░░░`   0.0% | 0/113 | not started |

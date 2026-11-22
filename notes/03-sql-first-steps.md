@@ -249,3 +249,15 @@ Command	What it shows
 ### Types
 
 #### Numeric types
+
+### Clauses
+
+#### Distinct On
+
+Distinct on is a thing where you dont want distinct clause in your query to hide the other column information , 
+This distinct On clauses not only helps remove duplicates but tell those condition on which the duplicate have to removed in the order by statement
+
+so
+ ```
+ with initial as (select distinct on (surname) firstname,surname from members order by surname, joindate) select count(*) from initial ;
+ ```
