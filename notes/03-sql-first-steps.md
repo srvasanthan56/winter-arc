@@ -54,6 +54,7 @@ resultant cartesian = (green, b), (green, p), (black, b), (black, p), (red, b), 
 
 a *Relation* is a subset of Cartesian Product , which relates an element from one set ot another set 
 `R= {(x,y):x ∈ A and y ∈ B}`
+=> A relation is aset of tuple which consitently arranged in same order or attributes, In a mathmatical relation should not allow duplicated, dbms allows duplicates b/w records
 
 b is a image of a
 *Domain* has the all the list of values available in the first set in a relation, it may or may not equal to set A,
@@ -74,6 +75,39 @@ eg : (Student_ID, Course_ID) in a Student Tutoring Table (Student_ID, Course_ID,
 
 Here Student_ID and Course_ID are Prime Attributes , and other columns are called Non Prime Attributes
 
++---------------+----------+---------------------------------------+-----------------------------------+
+| Key           | Axis     | What it means                         | Seat example                      |
++===============+==========+=======================================+===================================+
+| Simple key    | Shape    | Exactly one column                    | {seat_id}                         |
+| Composite key | Shape    | Two or more columns                   | {screen_no, seat_name}            |
++---------------+----------+---------------------------------------+-----------------------------------+
+| Superkey      | Property | Unique; extra columns allowed         | {seat_id}  {seat_id, seat_name}   |
+| Candidate key | Property | Unique AND minimal (no spare column)  | {seat_id}  {screen_no, seat_name} |
++---------------+----------+---------------------------------------+-----------------------------------+
+| Primary key   | Role     | The ONE candidate you chose; NOT NULL | {seat_id}                         |
+| Alternate key | Role     | Candidate not chosen; UNIQUE NOT NULL | {screen_no, seat_name}            |
++---------------+----------+---------------------------------------+-----------------------------------+
+| Natural key   | Origin   | Has real-world meaning                | {screen_no, seat_name}            |
+| Surrogate key | Origin   | Artificial, no business meaning       | {seat_id}                         |
++---------------+----------+---------------------------------------+-----------------------------------+
+| Foreign key   | Link     | Points at another table's key         | seat.screen_no -> screen          |
++---------------+----------+---------------------------------------+-----------------------------------+
+
+in this Super keys are
+(seat_id)
+(seat_name, screen_no)
+(seat_id,screen_no)
+(seat_id,screen_no, seat_name)
+{seat_id, seat_name}
+{seat_id, seat_type}
+{seat_id, seat_name, seat_type}
+{seat_id, screen_no, seat_type}
+{seat_id, seat_name, screen_no, seat_type}
+{seat_name, screen_no, seat_type}
+
+but candidate keys are 
+(seat_id)
+(seat_name, screen_no)
 
 ## Normalization
 
@@ -83,14 +117,17 @@ Database normalization is a database design process that organizes data into spe
 #### 1NF
 Every record should be unique
 
+requires every column to hold a single atomic value, with no repeating groups.
+
 #### 2NF
+2NF only matters where the primary key is composite eg. (Student Id, Course Id)
 having one primary key applied and all the non key attributes should be dependent on entire candidate key rather than any one part of the keys , this is called Partial dependency , 
 
 | Student Id | Course Id | Course Name | Course Fee |
 | --- | --- | --- | --- | 
 | S101 | C01 | English | 1000 | 
 | S102 | C02 | OS | 1500 | 
-| S101 | C04 | DBMS | 1000 | 
+| S101 | C04 | DBMS | 1000 | kv
 | S103 | C01 | English | 1000 | 
 
 Here Candidate key (Student Id, Course Id)
@@ -261,3 +298,28 @@ so
  ```
  with initial as (select distinct on (surname) firstname,surname from members order by surname, joindate) select count(*) from initial ;
  ```
+
+
+### Choosing a Type ?
+
+ Key:
+A Natural key such as (seat_name and Screen_no) can also be chosen as pk 
+
+Primary key: the one candidate key you choose as the main identity. It is unique and NOT NULL, and it should be stable, small, and never reused.
+
+The remaining candidates are alternate keys. You declare them UNIQUE NOT NULL.
+
+UUIDs : >>
+
+Database-generated id (serial): if you retry, you may insert the booking twice, since each attempt gets a new id. You've created a duplicate.
+
+Client-generated id: you retry with the same X. If the first attempt succeeded, the primary key rejects the second with a unique violation. The database itself tells you "already done", and nothing is duplicated.
+The id works as an idempotency token
+
+String Types:
+
+
+
+## Misc
+
+Learnt about RETURNING - > should be used after insert, delete, update 

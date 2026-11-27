@@ -60,7 +60,7 @@ assumes you're working against millions of rows.
 - [x] Normalization 1NF → 2NF → 3NF → BCNF. Be able to normalize a messy spreadsheet on paper
 - [x] Denormalization: when and why you deliberately break the rules
 - [x] Relational algebra basics: selection (σ), projection (π), join (⋈), union, difference. This is what the planner actually manipulates
-- [ ] **Rep:** take a real-world domain (an order system, a ticketing system) and design the schema on paper to 3NF. Then write the DDL. Save to `work/03-postgres/schema-design/`
+- [x] **Rep:** take a real-world domain (an order system, a ticketing system) and design the schema on paper to 3NF. Then write the DDL. Save to `work/03-postgres/schema-design/`
 - [x] Read **DDIA Chapter 2** (Data Models) — relational vs document vs graph
 
 
@@ -68,7 +68,7 @@ assumes you're working against millions of rows.
 ### Set 1.2 — The SQL language (Postgres docs Ch. 4, "SQL Syntax")
 
 - [x] `SELECT`, `WHERE`, `ORDER BY`, `LIMIT`/`OFFSET`, `DISTINCT`, `DISTINCT ON` (a Postgres gift)
-- [ ] **Logical order of evaluation**: FROM → WHERE → GROUP BY → HAVING → SELECT → DISTINCT → ORDER BY → LIMIT. Memorize this. It explains why you can't use a SELECT alias in WHERE
+- [x] **Logical order of evaluation**: FROM → WHERE → GROUP BY → HAVING → SELECT → DISTINCT → ORDER BY → LIMIT. Memorize this. It explains why you can't use a SELECT alias in WHERE
 - [ ] Joins: INNER, LEFT, RIGHT, FULL, CROSS, and `LATERAL` (the one most people never learn — learn it)
 - [ ] Self-joins, anti-joins (`NOT EXISTS`), semi-joins (`EXISTS`)
 - [ ] `NULL` semantics: three-valued logic. Why `NULL = NULL` is NULL, `NOT IN` with NULLs silently returns nothing, `COALESCE`, `NULLIF`, `IS DISTINCT FROM`
